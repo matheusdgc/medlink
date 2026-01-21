@@ -33,7 +33,7 @@ O MedLink nasceu da necessidade de modernizar o sistema de receitas medicas no B
 - Acesso do paciente via CPF e data de nascimento
 - Validacao instantanea por codigo ou busca por CPF
 
-## Funcionalidades
+## Funcionalidadesgit status
 
 ### Para Medicos
 
