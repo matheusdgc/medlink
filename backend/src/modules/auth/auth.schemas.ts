@@ -1,7 +1,5 @@
 import { z } from "zod";
 
-// ==================== LOGIN SCHEMAS ====================
-
 export const loginProfissionalSchema = z.object({
   email: z.string().email("Email inválido"),
   senha: z.string().min(6, "Senha deve ter no mínimo 6 caracteres"),
@@ -13,8 +11,6 @@ export const loginPacienteSchema = z.object({
     message: "Data de nascimento inválida",
   }),
 });
-
-// ==================== REGISTER SCHEMAS ====================
 
 export const registerMedicoSchema = z.object({
   email: z.string().email("Email inválido"),
@@ -57,13 +53,9 @@ export const registerPacienteSchema = z.object({
   cartaoSus: z.string().optional().nullable(),
 });
 
-// ==================== REFRESH TOKEN SCHEMA ====================
-
 export const refreshTokenSchema = z.object({
   refreshToken: z.string().min(1, "Refresh token é obrigatório"),
 });
-
-// ==================== UPDATE PROFILE SCHEMAS ====================
 
 export const updateMedicoSchema = z.object({
   nome: z.string().min(3, "Nome deve ter no mínimo 3 caracteres").optional(),

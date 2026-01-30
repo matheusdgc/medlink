@@ -25,7 +25,6 @@ export const Footer = () => {
     <footer className="bg-navy text-white">
       <div className="container mx-auto px-4 py-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 text-center lg:text-left">
-          {/* Brand Section */}
           <div className="space-y-4 flex flex-col items-center lg:items-start">
             <MedLinkLogo variant="white" size="md" />
             <p className="text-sm text-white/70">
@@ -53,7 +52,6 @@ export const Footer = () => {
             </div>
           </div>
 
-          {/* Serviços */}
           <div>
             <h3 className="font-display font-semibold text-teal mb-4">
               Serviços
@@ -72,7 +70,6 @@ export const Footer = () => {
             </ul>
           </div>
 
-          {/* Suporte */}
           <div>
             <h3 className="font-display font-semibold text-teal mb-4">
               Suporte
@@ -91,7 +88,6 @@ export const Footer = () => {
             </ul>
           </div>
 
-          {/* Empresa */}
           <div>
             <h3 className="font-display font-semibold text-teal mb-4">
               Empresa
@@ -111,7 +107,6 @@ export const Footer = () => {
           </div>
         </div>
 
-        {/* Bottom Bar */}
         <div className="mt-12 pt-6 border-t border-white/10 text-center">
           <p className="text-sm text-white/50">
             Feito por © MedLink 2026. Todos os Direitos Reservados.

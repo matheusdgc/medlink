@@ -26,7 +26,6 @@ import {
 import { bulasApi } from "@/services/api";
 import { useToast } from "@/hooks/use-toast";
 
-// Base de dados local de medicamentos comuns
 const medicamentosBase = [
   {
     id: 1,

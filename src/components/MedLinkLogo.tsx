@@ -27,7 +27,6 @@ export const MedLinkLogo = ({
 }: MedLinkLogoProps) => {
   const textColor = variant === "white" ? "text-white" : "text-navy";
 
-  // Logo Image Component
   const LogoIcon = ({ iconClass }: { iconClass?: string }) => (
     <img
       src="/images/medlink-logo-v2.png"

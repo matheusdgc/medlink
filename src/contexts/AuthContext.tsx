@@ -34,7 +34,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  // Load user from localStorage on mount
   useEffect(() => {
     const loadStoredData = async () => {
       try {
@@ -44,7 +43,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
         if (storedUser && storedToken) {
           setUser(JSON.parse(storedUser));
 
-          // Validate token by fetching profile
           try {
             const response = await authApi.getProfile();
             const profileData = response.data.data;
@@ -59,7 +57,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
             setUser(updatedUser);
             localStorage.setItem("@medlink:user", JSON.stringify(updatedUser));
           } catch (error) {
-            // Token invalid, clear storage
             localStorage.removeItem("@medlink:token");
             localStorage.removeItem("@medlink:refreshToken");
             localStorage.removeItem("@medlink:user");

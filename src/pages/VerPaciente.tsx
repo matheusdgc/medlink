@@ -102,20 +102,17 @@ const VerPaciente = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
 
-  // States
   const [busca, setBusca] = useState("");
   const [buscando, setBuscando] = useState(false);
   const [paciente, setPaciente] = useState<Paciente | null>(null);
   const [receitas, setReceitas] = useState<Receita[]>([]);
   const [loadingReceitas, setLoadingReceitas] = useState(false);
 
-  // Modal state
   const [receitaSelecionada, setReceitaSelecionada] = useState<Receita | null>(
     null
   );
   const [modalReceita, setModalReceita] = useState(false);
 
-  // Edição do paciente
   const [modalEditar, setModalEditar] = useState(false);
   const [salvando, setSalvando] = useState(false);
   const [dadosEdicao, setDadosEdicao] = useState({
@@ -146,7 +143,6 @@ const VerPaciente = () => {
       const response = await pacientesApi.buscarPorDocumento(busca.trim());
       setPaciente(response.data.data);
 
-      // Carregar histórico de receitas
       await carregarReceitas(response.data.data.id);
     } catch (error: any) {
       if (error.response?.status === 404) {
@@ -290,7 +286,6 @@ const VerPaciente = () => {
     try {
       setSalvando(true);
 
-      // Preparar dados para envio (remover campos vazios)
       const dadosParaEnviar: any = {};
       if (dadosEdicao.nome) dadosParaEnviar.nome = dadosEdicao.nome;
       if (dadosEdicao.email) dadosParaEnviar.email = dadosEdicao.email;
@@ -311,7 +306,6 @@ const VerPaciente = () => {
 
       await pacientesApi.atualizar(paciente.id, dadosParaEnviar);
 
-      // Atualizar dados locais
       setPaciente({
         ...paciente,
         usuario: {

@@ -103,7 +103,6 @@ const ValidarReceita = () => {
     []
   );
 
-  // Inicializar itens dispensados quando uma receita é carregada
   const inicializarItensDispensados = (receitaCarregada: Receita) => {
     const itens = receitaCarregada.itens.map((item) => ({
       itemReceitaId: item.id,
@@ -191,7 +190,6 @@ const ValidarReceita = () => {
     setPacienteNome("");
 
     try {
-      // Primeiro busca o paciente pelo CPF
       const cpfLimpo = cpfPaciente.replace(/\D/g, "");
       const pacienteResponse = await pacientesApi.buscarPorDocumento(cpfLimpo);
       const paciente = pacienteResponse.data.data;
@@ -207,13 +205,11 @@ const ValidarReceita = () => {
 
       setPacienteNome(paciente.usuario?.nome || "");
 
-      // Busca as receitas do paciente
       const receitasResponse = await pacientesApi.historicoReceitas(
         paciente.id
       );
       const receitas = receitasResponse.data.data?.receitas || [];
 
-      // Filtra apenas receitas ativas
       const receitasAtivas = receitas.filter(
         (r: Receita) => r.status === "ATIVA"
       );
@@ -241,7 +237,6 @@ const ValidarReceita = () => {
   };
 
   const selecionarReceita = async (receitaSelecionada: Receita) => {
-    // Busca a receita completa pelo código para ter todos os dados
     setIsLoading(true);
     try {
       const response = await receitasApi.buscarPorCodigo(

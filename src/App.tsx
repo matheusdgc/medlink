@@ -6,7 +6,6 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { ProtectedRoute, GuestRoute } from "@/components/ProtectedRoute";
 
-// Pages
 import Index from "./pages/Index";
 import LandingPage from "./pages/LandingPage";
 import LoginPaciente from "./pages/LoginPaciente";
@@ -17,7 +16,7 @@ import DashboardFarmacia from "./pages/DashboardFarmacia";
 import ValidarReceita from "./pages/ValidarReceita";
 import VerPaciente from "./pages/VerPaciente";
 import ReceitasPaciente from "./pages/ReceitasPaciente";
-import NovaReceita from "./pages/NovaReceita";
+import NovaReceita from "./pages/NovaReceita/index";
 import AtualizarReceita from "./pages/AtualizarReceita";
 import PerfilMedico from "./pages/PerfilMedico";
 import PerfilFarmacia from "./pages/PerfilFarmacia";
@@ -37,13 +36,11 @@ const App = () => (
       <BrowserRouter>
         <AuthProvider>
           <Routes>
-            {/* Public Routes */}
             <Route path="/" element={<Index />} />
             <Route path="/servicos" element={<LandingPage />} />
             <Route path="/sobre" element={<LandingPage />} />
             <Route path="/contato" element={<LandingPage />} />
 
-            {/* Guest-only Routes (redirect if logged in) */}
             <Route
               path="/login/paciente"
               element={
@@ -61,7 +58,6 @@ const App = () => (
               }
             />
 
-            {/* Patient Routes - Protected */}
             <Route
               path="/paciente"
               element={
@@ -95,7 +91,6 @@ const App = () => (
               }
             />
 
-            {/* Doctor Routes - Protected */}
             <Route
               path="/medico"
               element={
@@ -145,7 +140,6 @@ const App = () => (
               }
             />
 
-            {/* Pharmacy Routes - Protected */}
             <Route
               path="/farmacia"
               element={
@@ -195,7 +189,6 @@ const App = () => (
               }
             />
 
-            {/* Admin Routes - Médicos e Farmácias */}
             <Route
               path="/admin/unidades-saude"
               element={
@@ -205,7 +198,6 @@ const App = () => (
               }
             />
 
-            {/* Catch-all */}
             <Route path="*" element={<NotFound />} />
           </Routes>
         </AuthProvider>

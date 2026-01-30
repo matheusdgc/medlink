@@ -123,7 +123,6 @@ const AdminUnidadesSaude = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [busca, setBusca] = useState("");
 
-  // Form state
   const [showFormDialog, setShowFormDialog] = useState(false);
   const [editandoUnidade, setEditandoUnidade] = useState<UnidadeSaude | null>(
     null
@@ -139,7 +138,6 @@ const AdminUnidadesSaude = () => {
     telefone: "",
   });
 
-  // Delete state
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
   const [unidadeParaExcluir, setUnidadeParaExcluir] =
     useState<UnidadeSaude | null>(null);
@@ -289,7 +287,6 @@ const AdminUnidadesSaude = () => {
       <Header />
 
       <main className="flex-1 container mx-auto px-4 py-6">
-        {/* Breadcrumb */}
         <div className="flex items-center gap-2 text-sm text-muted-foreground mb-6">
           <button
             onClick={() => navigate(dashboardRoute)}
@@ -320,7 +317,6 @@ const AdminUnidadesSaude = () => {
           </Button>
         </div>
 
-        {/* Busca */}
         <div className="relative mb-6">
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
           <Input
@@ -331,7 +327,6 @@ const AdminUnidadesSaude = () => {
           />
         </div>
 
-        {/* Loading */}
         {isLoading && (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {[1, 2, 3, 4, 5, 6].map((i) => (
@@ -347,7 +342,6 @@ const AdminUnidadesSaude = () => {
           </div>
         )}
 
-        {/* Lista de Unidades */}
         {!isLoading && (
           <>
             <p className="text-sm text-muted-foreground mb-4">
@@ -442,7 +436,6 @@ const AdminUnidadesSaude = () => {
         )}
       </main>
 
-      {/* Dialog de Formulário */}
       <Dialog open={showFormDialog} onOpenChange={setShowFormDialog}>
         <DialogContent className="max-w-lg max-h-[90vh] overflow-y-auto">
           <DialogHeader>
@@ -597,7 +590,6 @@ const AdminUnidadesSaude = () => {
         </DialogContent>
       </Dialog>
 
-      {/* Dialog de Confirmação de Exclusão */}
       <AlertDialog open={showDeleteDialog} onOpenChange={setShowDeleteDialog}>
         <AlertDialogContent>
           <AlertDialogHeader>

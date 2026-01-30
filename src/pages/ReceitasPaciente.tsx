@@ -189,7 +189,6 @@ const ReceitasPaciente = () => {
       <Header />
 
       <main className="flex-1 container mx-auto px-4 py-6">
-        {/* Breadcrumb */}
         <div className="flex items-center gap-2 text-sm text-muted-foreground mb-6">
           <button
             onClick={() => navigate("/")}
@@ -206,7 +205,6 @@ const ReceitasPaciente = () => {
           Minhas Receitas
         </h1>
 
-        {/* Barra de busca */}
         <div className="relative mb-4">
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
           <Input
@@ -217,7 +215,6 @@ const ReceitasPaciente = () => {
           />
         </div>
 
-        {/* Filtros */}
         <div className="flex gap-2 mb-6 overflow-x-auto pb-2">
           {(["todas", "ATIVA", "DISPENSADA", "VENCIDA"] as const).map(
             (status) => (
@@ -241,7 +238,6 @@ const ReceitasPaciente = () => {
           )}
         </div>
 
-        {/* Loading */}
         {isLoading && (
           <div className="space-y-4">
             {[1, 2, 3].map((i) => (
@@ -264,7 +260,6 @@ const ReceitasPaciente = () => {
           </div>
         )}
 
-        {/* Lista de Receitas */}
         {!isLoading && (
           <div className="space-y-4">
             {receitasFiltradas.map((receita, index) => (

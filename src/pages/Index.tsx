@@ -8,23 +8,22 @@ const Index = () => {
   const navigate = useNavigate();
   const { user, isAuthenticated } = useAuth();
 
-  // Verifica se o usuário está logado e qual é o seu tipo
   const isMedico = isAuthenticated && user?.tipo === "MEDICO";
   const isFarmacia = isAuthenticated && user?.tipo === "FARMACIA";
 
   const handleMedicoClick = () => {
-    if (isFarmacia) return; // Bloqueado para farmacêuticos
+    if (isFarmacia) return;
     if (isMedico) {
-      navigate("/medico"); // Já logado como médico, vai direto ao dashboard
+      navigate("/medico");
     } else {
       navigate("/login/profissional?tipo=medico");
     }
   };
 
   const handleFarmaciaClick = () => {
-    if (isMedico) return; // Bloqueado para médicos
+    if (isMedico) return;
     if (isFarmacia) {
-      navigate("/farmacia"); // Já logado como farmacêutico, vai direto ao dashboard
+      navigate("/farmacia");
     } else {
       navigate("/login/profissional?tipo=farmacia");
     }

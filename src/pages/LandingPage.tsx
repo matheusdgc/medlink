@@ -23,7 +23,6 @@ const LandingPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // Scroll to section based on route
   useEffect(() => {
     const path = location.pathname;
     if (path === "/servicos") {
@@ -180,7 +179,6 @@ const LandingPage = () => {
             </div>
           </div>
 
-          {/* Features Grid */}
           <div className="mt-20 grid md:grid-cols-4 gap-6 max-w-5xl mx-auto">
             <div className="text-center p-6">
               <div className="w-14 h-14 bg-navy/10 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -214,7 +212,7 @@ const LandingPage = () => {
         </div>
       </section>
 
-      {/* Sobre Nós Section */}
+      {/* Sobre Nós */}
       <section id="sobre" className="py-20 bg-white">
         <div className="container mx-auto px-4">
           <div className="max-w-5xl mx-auto">
@@ -319,7 +317,7 @@ const LandingPage = () => {
         </div>
       </section>
 
-      {/* Contato Section */}
+      {/* Contato */}
       <section id="contato" className="py-20 bg-gray-50">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">

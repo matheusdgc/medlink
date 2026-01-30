@@ -113,7 +113,6 @@ const PerfilMedico = () => {
   const [isSaving, setIsSaving] = useState(false);
   const [perfil, setPerfil] = useState<PerfilMedico | null>(null);
 
-  // Form state
   const [formData, setFormData] = useState({
     nome: "",
     email: "",
@@ -135,7 +134,6 @@ const PerfilMedico = () => {
       const data = response.data.data;
       setPerfil(data);
 
-      // Initialize form data
       setFormData({
         nome: data.nome || "",
         email: data.email || "",
@@ -205,7 +203,6 @@ const PerfilMedico = () => {
         description: "Suas informações foram salvas com sucesso.",
       });
 
-      // Atualiza os dados locais
       if (perfil) {
         setPerfil({
           ...perfil,

@@ -91,13 +91,11 @@ const AtualizarReceita = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
 
-  // States
   const [receitas, setReceitas] = useState<Receita[]>([]);
   const [loading, setLoading] = useState(true);
   const [busca, setBusca] = useState("");
   const [filtroStatus, setFiltroStatus] = useState<string>("ATIVA");
 
-  // Modal states
   const [receitaSelecionada, setReceitaSelecionada] = useState<Receita | null>(
     null
   );
@@ -105,11 +103,9 @@ const AtualizarReceita = () => {
   const [modalRenovar, setModalRenovar] = useState(false);
   const [modalCancelar, setModalCancelar] = useState(false);
 
-  // Form states
   const [novaValidade, setNovaValidade] = useState("");
   const [salvando, setSalvando] = useState(false);
 
-  // Load prescriptions
   useEffect(() => {
     carregarReceitas();
   }, [filtroStatus]);
@@ -178,7 +174,6 @@ const AtualizarReceita = () => {
 
   const abrirRenovar = (receita: Receita) => {
     setReceitaSelecionada(receita);
-    // Default: adiciona 30 dias à data atual
     const novaData = new Date();
     novaData.setDate(novaData.getDate() + 30);
     setNovaValidade(novaData.toISOString().split("T")[0]);
@@ -254,7 +249,6 @@ const AtualizarReceita = () => {
 
       <main className="flex-1 container mx-auto px-4 py-8">
         <div className="max-w-6xl mx-auto">
-          {/* Header */}
           <div className="flex items-center gap-4 mb-8">
             <Button
               variant="ghost"
@@ -273,11 +267,9 @@ const AtualizarReceita = () => {
             </div>
           </div>
 
-          {/* Filtros */}
           <Card className="mb-6">
             <CardContent className="pt-6">
               <div className="flex flex-col md:flex-row gap-4">
-                {/* Busca */}
                 <div className="flex-1 relative">
                   <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                   <Input
@@ -288,7 +280,6 @@ const AtualizarReceita = () => {
                   />
                 </div>
 
-                {/* Filtro de status */}
                 <div className="flex gap-2">
                   {["ATIVA", "DISPENSADA", "VENCIDA", "CANCELADA", ""].map(
                     (status) => (
@@ -314,7 +305,6 @@ const AtualizarReceita = () => {
             </CardContent>
           </Card>
 
-          {/* Lista de Receitas */}
           {loading ? (
             <div className="flex justify-center py-12">
               <Loader2 className="h-8 w-8 animate-spin text-navy" />
@@ -345,7 +335,6 @@ const AtualizarReceita = () => {
                 >
                   <CardContent className="p-4">
                     <div className="flex flex-col md:flex-row md:items-center gap-4">
-                      {/* Info Principal */}
                       <div className="flex-1 space-y-2">
                         <div className="flex items-center gap-3">
                           <span className="font-mono text-sm bg-muted px-2 py-1 rounded">
@@ -390,7 +379,6 @@ const AtualizarReceita = () => {
                         )}
                       </div>
 
-                      {/* Ações */}
                       <div className="flex gap-2">
                         <Button
                           variant="outline"
@@ -435,7 +423,6 @@ const AtualizarReceita = () => {
 
       <Footer />
 
-      {/* Modal de Detalhes */}
       <Dialog open={modalDetalhes} onOpenChange={setModalDetalhes}>
         <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
           <DialogHeader>
@@ -450,7 +437,6 @@ const AtualizarReceita = () => {
 
           {receitaSelecionada && (
             <div className="space-y-4">
-              {/* Info do Paciente */}
               <Card>
                 <CardHeader className="pb-2">
                   <CardTitle className="text-sm font-medium text-muted-foreground">
@@ -467,7 +453,6 @@ const AtualizarReceita = () => {
                 </CardContent>
               </Card>
 
-              {/* Status e Datas */}
               <div className="grid grid-cols-2 gap-4">
                 <Card>
                   <CardContent className="pt-4">
@@ -487,7 +472,6 @@ const AtualizarReceita = () => {
                 </Card>
               </div>
 
-              {/* Diagnóstico */}
               {receitaSelecionada.diagnostico && (
                 <Card>
                   <CardHeader className="pb-2">
@@ -501,7 +485,6 @@ const AtualizarReceita = () => {
                 </Card>
               )}
 
-              {/* Medicamentos */}
               <Card>
                 <CardHeader className="pb-2">
                   <CardTitle className="text-sm font-medium text-muted-foreground">
@@ -545,7 +528,6 @@ const AtualizarReceita = () => {
                 </CardContent>
               </Card>
 
-              {/* Observações */}
               {receitaSelecionada.observacoes && (
                 <Card>
                   <CardHeader className="pb-2">
@@ -559,7 +541,6 @@ const AtualizarReceita = () => {
                 </Card>
               )}
 
-              {/* Info de Dispensação */}
               {receitaSelecionada.dispensacao && (
                 <Card className="border-green-200 bg-green-50">
                   <CardHeader className="pb-2">
@@ -617,7 +598,6 @@ const AtualizarReceita = () => {
         </DialogContent>
       </Dialog>
 
-      {/* Modal de Renovar */}
       <Dialog open={modalRenovar} onOpenChange={setModalRenovar}>
         <DialogContent>
           <DialogHeader>
@@ -688,7 +668,6 @@ const AtualizarReceita = () => {
         </DialogContent>
       </Dialog>
 
-      {/* Alert de Cancelar */}
       <AlertDialog open={modalCancelar} onOpenChange={setModalCancelar}>
         <AlertDialogContent>
           <AlertDialogHeader>

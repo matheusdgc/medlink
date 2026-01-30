@@ -16,7 +16,6 @@ import { useAuth } from "@/contexts/AuthContext";
 import { authApi } from "@/services/api";
 import { useToast } from "@/hooks/use-toast";
 
-// Lista de especialidades médicas
 const especialidadesMedicas = [
   "Clínica Geral",
   "Cardiologia",
@@ -37,7 +36,6 @@ const especialidadesMedicas = [
   "Outra",
 ];
 
-// Lista de UFs brasileiras
 const ufs = [
   "AC",
   "AL",
@@ -79,25 +77,21 @@ const LoginProfissional = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  // Login fields
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
 
-  // Cadastro fields
   const [cadastroData, setCadastroData] = useState({
     nome: "",
     email: "",
     cpf: "",
     dataNascimento: "",
     funcao: tipo as "medico" | "farmacia",
-    // Médico fields
     crm: "",
     ufCrm: "",
     especialidade: "",
     telefone: "",
     nomeClinica: "",
     enderecoClinica: "",
-    // Farmácia fields
     crf: "",
     ufCrf: "",
     cnpj: "",
@@ -115,7 +109,6 @@ const LoginProfissional = () => {
     setCadastroData((prev) => ({ ...prev, [field]: value }));
   };
 
-  // Validação de CPF
   const validarCPF = (cpf: string): boolean => {
     cpf = cpf.replace(/[^\d]/g, "");
     if (cpf.length !== 11 || /^(\d)\1+$/.test(cpf)) return false;
@@ -133,19 +126,16 @@ const LoginProfissional = () => {
     return resto === parseInt(cpf.charAt(10));
   };
 
-  // Validação de CRM (formato: 6 dígitos)
   const validarCRM = (crm: string): boolean => {
     const crmLimpo = crm.replace(/[^\d]/g, "");
     return crmLimpo.length >= 4 && crmLimpo.length <= 6;
   };
 
-  // Validação de CRF (formato: 5-6 dígitos)
   const validarCRF = (crf: string): boolean => {
     const crfLimpo = crf.replace(/[^\d]/g, "");
     return crfLimpo.length >= 4 && crfLimpo.length <= 6;
   };
 
-  // Validação de CNPJ
   const validarCNPJ = (cnpj: string): boolean => {
     cnpj = cnpj.replace(/[^\d]/g, "");
     if (cnpj.length !== 14 || /^(\d)\1+$/.test(cnpj)) return false;
@@ -178,7 +168,6 @@ const LoginProfissional = () => {
     return resultado === parseInt(digitos.charAt(1));
   };
 
-  // Formatação de CPF
   const formatarCPF = (value: string) => {
     const numeros = value.replace(/\D/g, "").slice(0, 11);
     return numeros
@@ -187,7 +176,6 @@ const LoginProfissional = () => {
       .replace(/(\d{3})(\d{1,2})$/, "$1-$2");
   };
 
-  // Formatação de CNPJ
   const formatarCNPJ = (value: string) => {
     const numeros = value.replace(/\D/g, "").slice(0, 14);
     return numeros
@@ -217,7 +205,6 @@ const LoginProfissional = () => {
         navigate("/farmacia");
       }
     } catch (error) {
-      // Error is handled in context with toast
     }
   };
 
@@ -225,7 +212,6 @@ const LoginProfissional = () => {
     e.preventDefault();
     setIsLoading(true);
 
-    // Validações básicas
     if (
       !cadastroData.nome.trim() ||
       !cadastroData.email.trim() ||
@@ -240,7 +226,6 @@ const LoginProfissional = () => {
       return;
     }
 
-    // Validar CPF
     if (!validarCPF(cadastroData.cpf)) {
       toast({
         title: "Erro",
@@ -251,7 +236,6 @@ const LoginProfissional = () => {
       return;
     }
 
-    // Validar senhas
     if (cadastroData.senha !== cadastroData.confirmarSenha) {
       toast({
         title: "Erro",
@@ -274,7 +258,6 @@ const LoginProfissional = () => {
 
     try {
       if (cadastroData.funcao === "medico") {
-        // Validar CRM
         if (!validarCRM(cadastroData.crm)) {
           toast({
             title: "Erro",
@@ -325,7 +308,6 @@ const LoginProfissional = () => {
         setMode("login");
         setEmail(cadastroData.email);
       } else {
-        // Farmácia
         if (!validarCRF(cadastroData.crf)) {
           toast({
             title: "Erro",
@@ -407,7 +389,6 @@ const LoginProfissional = () => {
       {mode === "login" ? (
         <>
           <div className="flex-1 flex flex-col lg:flex-row min-h-screen">
-            {/* Image Section - Login */}
             <div className="hidden lg:block lg:w-1/2 h-screen sticky top-0">
               <img
                 src={
@@ -420,7 +401,6 @@ const LoginProfissional = () => {
               />
             </div>
 
-            {/* Form Section - Login */}
             <div className="flex-1 flex flex-col lg:w-1/2">
               <div className="p-6">
                 <button
@@ -541,13 +521,11 @@ const LoginProfissional = () => {
               </div>
 
               <form onSubmit={handleCadastroSubmit} className="space-y-4">
-                {/* Dados Pessoais */}
                 <div className="bg-gray-50 rounded-xl p-4 space-y-4">
                   <h3 className="font-semibold text-navy text-sm uppercase tracking-wide">
                     Dados Pessoais
                   </h3>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    {/* Nome Completo */}
                     <div className="space-y-1">
                       <Label htmlFor="nome" className="text-sm">
                         Nome Completo
@@ -563,7 +541,6 @@ const LoginProfissional = () => {
                       />
                     </div>
 
-                    {/* Email */}
                     <div className="space-y-1">
                       <Label htmlFor="cadastroEmail" className="text-sm">
                         Email
@@ -579,7 +556,6 @@ const LoginProfissional = () => {
                       />
                     </div>
 
-                    {/* CPF */}
                     <div className="space-y-1">
                       <Label htmlFor="cpf" className="text-sm">
                         CPF
@@ -596,7 +572,6 @@ const LoginProfissional = () => {
                       />
                     </div>
 
-                    {/* Data de Nascimento */}
                     <div className="space-y-1">
                       <Label htmlFor="dataNascimento" className="text-sm">
                         Data de Nascimento
@@ -614,7 +589,6 @@ const LoginProfissional = () => {
                   </div>
                 </div>
 
-                {/* Função */}
                 <div className="bg-gray-50 rounded-xl p-4 space-y-4">
                   <h3 className="font-semibold text-navy text-sm uppercase tracking-wide">
                     Função Profissional
@@ -637,7 +611,6 @@ const LoginProfissional = () => {
                     </Select>
                   </div>
 
-                  {/* Campos específicos para Médico */}
                   {cadastroData.funcao === "medico" && (
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
                       <div className="space-y-1">
@@ -748,7 +721,6 @@ const LoginProfissional = () => {
                     </div>
                   )}
 
-                  {/* Campos específicos para Farmacêutico */}
                   {cadastroData.funcao === "farmacia" && (
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
                       <div className="space-y-1">
@@ -923,7 +895,6 @@ const LoginProfissional = () => {
                   )}
                 </div>
 
-                {/* Senha */}
                 <div className="bg-gray-50 rounded-xl p-4 space-y-4">
                   <h3 className="font-semibold text-navy text-sm uppercase tracking-wide">
                     Senha de Acesso

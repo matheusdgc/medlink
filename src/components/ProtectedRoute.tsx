@@ -15,7 +15,6 @@ export function ProtectedRoute({
   const { isAuthenticated, isLoading, user } = useAuth();
   const location = useLocation();
 
-  // Show loading while checking auth
   if (isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-background">
@@ -27,14 +26,11 @@ export function ProtectedRoute({
     );
   }
 
-  // Not authenticated - redirect to home
   if (!isAuthenticated) {
     return <Navigate to="/" state={{ from: location }} replace />;
   }
 
-  // Check user type permission
   if (allowedTypes && user && !allowedTypes.includes(user.tipo)) {
-    // Redirect to appropriate dashboard based on user type
     const dashboardRoutes: Record<UserType, string> = {
       PACIENTE: "/paciente",
       MEDICO: "/medico",
@@ -47,7 +43,6 @@ export function ProtectedRoute({
   return <>{children}</>;
 }
 
-// Wrapper for guest-only routes (login pages)
 interface GuestRouteProps {
   children: React.ReactNode;
 }
@@ -66,7 +61,6 @@ export function GuestRoute({ children }: GuestRouteProps) {
     );
   }
 
-  // Already authenticated - redirect to dashboard
   if (isAuthenticated && user) {
     const dashboardRoutes: Record<UserType, string> = {
       PACIENTE: "/paciente",

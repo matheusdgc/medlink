@@ -48,7 +48,6 @@ interface EnderecoInfo {
   estado: string;
 }
 
-// Função para aplicar máscara de CEP
 const formatCep = (value: string): string => {
   const numbers = value.replace(/\D/g, "");
   const limited = numbers.slice(0, 8);

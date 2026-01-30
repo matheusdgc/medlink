@@ -104,13 +104,11 @@ const HistoricoDispensacoes = () => {
     totalPages: 0,
   });
 
-  // Filtros
   const [dataInicio, setDataInicio] = useState("");
   const [dataFim, setDataFim] = useState("");
   const [pacienteNome, setPacienteNome] = useState("");
   const [showFilters, setShowFilters] = useState(false);
 
-  // Modal de detalhes
   const [dispensacaoSelecionada, setDispensacaoSelecionada] =
     useState<Dispensacao | null>(null);
 
@@ -176,10 +174,9 @@ const HistoricoDispensacoes = () => {
   return (
     <div className="min-h-screen flex flex-col bg-background">
       <Header />
-
+      {/* Hero */}
       <main className="flex-1 container mx-auto px-4 py-8">
         <div className="max-w-6xl mx-auto">
-          {/* Título */}
           <div className="mb-8">
             <h1 className="font-display text-3xl font-bold text-foreground">
               Histórico de Dispensações

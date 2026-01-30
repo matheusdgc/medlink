@@ -19,7 +19,6 @@ const DashboardPaciente = () => {
 
   return (
     <div className="min-h-screen flex flex-col bg-background">
-      {/* Mobile Header */}
       <header className="bg-navy text-white p-4 flex items-center justify-between">
         <MedLinkLogo variant="white" size="sm" />
         <div className="flex items-center gap-2">
@@ -37,7 +36,6 @@ const DashboardPaciente = () => {
         </div>
       </header>
 
-      {/* Mobile Menu */}
       {menuOpen && (
         <div className="bg-navy text-white px-4 pb-4 animate-slide-in">
           <nav className="space-y-2">
@@ -74,7 +72,6 @@ const DashboardPaciente = () => {
         </div>
       )}
 
-      {/* Main Content */}
       <main className="flex-1 px-4 py-8">
         <div className="max-w-lg mx-auto">
           <h1 className="font-display text-2xl font-bold text-foreground text-center mb-8 animate-fade-in">
