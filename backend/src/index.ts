@@ -17,8 +17,6 @@ import bulasRoutes from "./modules/bulas/bulas.routes.js";
 const app = express();
 const config = getEnvConfig();
 
-app.use(globalLimiter);
-
 app.use(
   cors({
     origin: [
@@ -33,6 +31,10 @@ app.use(
     allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
+
+app.options("*", cors());
+
+app.use(globalLimiter);
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
