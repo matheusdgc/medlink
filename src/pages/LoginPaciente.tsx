@@ -27,6 +27,27 @@ const formatCpf = (value: string): string => {
   }
 };
 
+const formatDate = (value: string): string => {
+  const numbers = value.replace(/\D/g, "");
+  const limited = numbers.slice(0, 8);
+
+  if (limited.length <= 2) {
+    return limited;
+  } else if (limited.length <= 4) {
+    return `${limited.slice(0, 2)}/${limited.slice(2)}`;
+  } else {
+    return `${limited.slice(0, 2)}/${limited.slice(2, 4)}/${limited.slice(4)}`;
+  }
+};
+
+const dateToISO = (ddmmaaaa: string): string => {
+  const parts = ddmmaaaa.split("/");
+  if (parts.length === 3) {
+    return `${parts[2]}-${parts[1]}-${parts[0]}`;
+  }
+  return ddmmaaaa;
+};
+
 const LoginPaciente = () => {
   const navigate = useNavigate();
   const { loginPaciente, isLoading } = useAuth();
@@ -39,15 +60,20 @@ const LoginPaciente = () => {
     setCpfSus(formatted);
   };
 
+  const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const formatted = formatDate(e.target.value);
+    setDataNascimento(formatted);
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!cpfSus.trim() || !dataNascimento) {
+    if (!cpfSus.trim() || dataNascimento.length < 10) {
       return;
     }
 
     try {
-      await loginPaciente({ cpfOuCartaoSus: cpfSus, dataNascimento });
+      await loginPaciente({ cpfOuCartaoSus: cpfSus, dataNascimento: dateToISO(dataNascimento) });
       navigate("/paciente");
     } catch (error) {
     }
@@ -99,9 +125,11 @@ const LoginPaciente = () => {
               </Label>
               <Input
                 id="data-nascimento"
-                type="date"
+                type="text"
                 value={dataNascimento}
-                onChange={(e) => setDataNascimento(e.target.value)}
+                onChange={handleDateChange}
+                placeholder="dd/mm/aaaa"
+                maxLength={10}
                 className="h-14 text-lg border-2 border-border focus:border-teal rounded-xl"
               />
             </div>
@@ -123,7 +151,7 @@ const LoginPaciente = () => {
 
             <Button
               type="submit"
-              disabled={isLoading || !cpfSus.trim() || !dataNascimento}
+              disabled={isLoading || !cpfSus.trim() || dataNascimento.length < 10}
               className="w-full h-14 text-lg font-semibold bg-navy hover:bg-navy-light text-white rounded-xl transition-all duration-300 disabled:opacity-50"
             >
               {isLoading ? (
