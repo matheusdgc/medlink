@@ -70,6 +70,7 @@ export const Header = ({
             <MedLinkLogo variant="white" size="md" />
           </Link>
 
+          {/* Desktop Navigation */}
           {showNav && !isAuthenticated && (
             <nav className="hidden sm:flex items-center gap-6 lg:gap-8">
               {navLinks.map((link) => (
@@ -141,6 +142,7 @@ export const Header = ({
               </DropdownMenu>
             )}
 
+            {/* Mobile menu button */}
             {!isAuthenticated && (
               <Button
                 variant="ghost"
@@ -158,6 +160,7 @@ export const Header = ({
           </div>
         </div>
 
+        {/* Mobile Navigation */}
         {mobileMenuOpen && showNav && !isAuthenticated && (
           <nav className="md:hidden py-4 border-t border-white/10">
             {navLinks.map((link) => (

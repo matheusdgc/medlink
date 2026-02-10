@@ -8,6 +8,8 @@ datasource db {
   directUrl = env("DIRECT_URL")
 }
 
+// ==================== ENUMS ====================
+
 enum TipoUsuario {
   PACIENTE
   MEDICO
@@ -26,6 +28,8 @@ enum Sexo {
   FEMININO
   OUTRO
 }
+
+// ==================== MODELS ====================
 
 model Usuario {
   id            String       @id @default(uuid())
@@ -86,6 +90,7 @@ model Medico {
   especialidade String?
   telefone      String?
   
+  // Dados da clínica/consultório
   nomeClinica   String?   @map("nome_clinica")
   enderecoClinica String? @map("endereco_clinica")
   telefoneClinica String? @map("telefone_clinica")
@@ -131,10 +136,12 @@ model Receita {
   medico        Medico        @relation(fields: [medicoId], references: [id])
   status        StatusReceita @default(ATIVA)
   
+  // Datas
   criadaEm      DateTime      @default(now()) @map("criada_em")
   validadeAte   DateTime      @map("validade_ate")
   atualizadaEm  DateTime      @updatedAt @map("atualizada_em")
   
+  // Informações adicionais
   observacoes   String?
   diagnostico   String?
   
@@ -174,11 +181,14 @@ model Dispensacao {
   dataHora      DateTime  @default(now()) @map("data_hora")
   observacoes   String?
   
+  // Itens dispensados (pode ser parcial)
   itensDispensados Json?  @map("itens_dispensados")
 
   @@index([farmaciaId])
   @@map("dispensacoes")
 }
+
+// ==================== UNIDADES DE SAÚDE ====================
 
 model UnidadeSaude {
   id            String    @id @default(uuid())

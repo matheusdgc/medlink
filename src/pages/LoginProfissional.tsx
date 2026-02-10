@@ -521,11 +521,13 @@ const LoginProfissional = () => {
               </div>
 
               <form onSubmit={handleCadastroSubmit} className="space-y-4">
+                {/* Dados Pessoais */}
                 <div className="bg-gray-50 rounded-xl p-4 space-y-4">
                   <h3 className="font-semibold text-navy text-sm uppercase tracking-wide">
                     Dados Pessoais
                   </h3>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {/* Nome Completo */}
                     <div className="space-y-1">
                       <Label htmlFor="nome" className="text-sm">
                         Nome Completo
@@ -541,6 +543,7 @@ const LoginProfissional = () => {
                       />
                     </div>
 
+                    {/* Email */}
                     <div className="space-y-1">
                       <Label htmlFor="cadastroEmail" className="text-sm">
                         Email
@@ -556,6 +559,7 @@ const LoginProfissional = () => {
                       />
                     </div>
 
+                    {/* CPF */}
                     <div className="space-y-1">
                       <Label htmlFor="cpf" className="text-sm">
                         CPF
@@ -572,6 +576,7 @@ const LoginProfissional = () => {
                       />
                     </div>
 
+                    {/* Data de Nascimento */}
                     <div className="space-y-1">
                       <Label htmlFor="dataNascimento" className="text-sm">
                         Data de Nascimento
@@ -589,6 +594,7 @@ const LoginProfissional = () => {
                   </div>
                 </div>
 
+                {/* Função */}
                 <div className="bg-gray-50 rounded-xl p-4 space-y-4">
                   <h3 className="font-semibold text-navy text-sm uppercase tracking-wide">
                     Função Profissional
@@ -611,6 +617,7 @@ const LoginProfissional = () => {
                     </Select>
                   </div>
 
+                  {/* Campos específicos para Médico */}
                   {cadastroData.funcao === "medico" && (
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
                       <div className="space-y-1">
@@ -721,6 +728,7 @@ const LoginProfissional = () => {
                     </div>
                   )}
 
+                  {/* Campos específicos para Farmacêutico */}
                   {cadastroData.funcao === "farmacia" && (
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
                       <div className="space-y-1">
@@ -895,6 +903,7 @@ const LoginProfissional = () => {
                   )}
                 </div>
 
+                {/* Senha */}
                 <div className="bg-gray-50 rounded-xl p-4 space-y-4">
                   <h3 className="font-semibold text-navy text-sm uppercase tracking-wide">
                     Senha de Acesso

@@ -18,6 +18,7 @@ async function main() {
 
   const senhaHash = await bcrypt.hash("123456", 10);
 
+  // ==================== MÉDICO ====================
   const usuarioMedico = await prisma.usuario.create({
     data: {
       email: "medico@medlink.com",
@@ -41,6 +42,7 @@ async function main() {
 
   console.log("✅ Médico criado:", usuarioMedico.email);
 
+  // ==================== FARMÁCIA ====================
   const usuarioFarmacia = await prisma.usuario.create({
     data: {
       email: "farmacia@medlink.com",
@@ -67,6 +69,7 @@ async function main() {
 
   console.log("✅ Farmácia criada:", usuarioFarmacia.email);
 
+  // ==================== PACIENTES ====================
   const pacientes = [
     {
       email: "maria.silva@email.com",
@@ -122,6 +125,7 @@ async function main() {
     console.log("✅ Paciente criado:", usuario.email);
   }
 
+  // ==================== RECEITAS ====================
   const medicoId = usuarioMedico.medico!.id;
 
   const receita1 = await prisma.receita.create({
@@ -240,6 +244,7 @@ async function main() {
 
   console.log("✅ Receita criada para segundo paciente:", receita4.codigo);
 
+  // ==================== UNIDADES DE SAÚDE ====================
   const unidades = [
     {
       nome: "UBS Vila Aparecida",

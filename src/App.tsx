@@ -36,6 +36,7 @@ const App = () => (
       <BrowserRouter>
         <AuthProvider>
           <Routes>
+            {/* Public Routes */}
             <Route path="/" element={<Index />} />
             <Route path="/servicos" element={<LandingPage />} />
             <Route path="/sobre" element={<LandingPage />} />

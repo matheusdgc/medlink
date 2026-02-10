@@ -1,5 +1,7 @@
 import { TipoUsuario } from "@prisma/client";
 
+// ==================== AUTH TYPES ====================
+
 export interface JwtPayload {
   userId: string;
   email: string;
@@ -12,6 +14,8 @@ export interface TokenPair {
   accessToken: string;
   refreshToken: string;
 }
+
+// ==================== REQUEST TYPES ====================
 
 export interface LoginRequest {
   email: string;
@@ -63,6 +67,8 @@ export interface RegisterPacienteRequest {
   telefone?: string;
 }
 
+// ==================== RESPONSE TYPES ====================
+
 export interface AuthResponse {
   user: {
     id: string;
@@ -101,6 +107,8 @@ export interface UserProfile {
     nomeFantasia: string | null;
   };
 }
+
+// ==================== ERROR TYPES ====================
 
 export class AppError extends Error {
   public readonly statusCode: number;

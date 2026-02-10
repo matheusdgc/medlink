@@ -1,5 +1,7 @@
 import { z } from "zod";
 
+// ==================== LOGIN SCHEMAS ====================
+
 export const loginProfissionalSchema = z.object({
   email: z.string().email("Email inválido"),
   senha: z.string().min(6, "Senha deve ter no mínimo 6 caracteres"),
@@ -11,6 +13,8 @@ export const loginPacienteSchema = z.object({
     message: "Data de nascimento inválida",
   }),
 });
+
+// ==================== REGISTER SCHEMAS ====================
 
 export const registerMedicoSchema = z.object({
   email: z.string().email("Email inválido"),
