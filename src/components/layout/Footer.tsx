@@ -1,26 +1,40 @@
 import { MedLinkLogo } from "@/components/MedLinkLogo";
 import { Mail, Phone } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useAuth } from "@/contexts/AuthContext";
 
-const footerLinks = {
-  servicos: [
-    { label: "Visualização de Receitas", href: "#" },
-    { label: "Expedição de Receitas", href: "#" },
-    { label: "Visualização de Bulas", href: "#" },
-  ],
-  suporte: [
-    { label: "Nos Contate", href: "#" },
-    { label: "Documentação", href: "#" },
-    { label: "Guias", href: "#" },
-  ],
-  empresa: [
-    { label: "Sobre Nós", href: "#" },
-    { label: "Redes Sociais", href: "#" },
-    { label: "Trabalhe Conosco", href: "#" },
-  ],
+const getFooterLinks = (userType?: string) => {
+  const servicosBase = [
+    { label: "Visualização de Bulas", href: userType === "MEDICO" ? "/medico/bulas" : userType === "FARMACIA" ? "/farmacia/bulas" : "/paciente/bulas" },
+    { label: "Unidades de Saúde", href: userType === "PACIENTE" ? "/paciente/unidades" : "/admin/unidades-saude" },
+  ];
+
+  if (userType === "MEDICO") {
+    servicosBase.unshift({ label: "Nova Receita", href: "/medico/nova-receita" });
+  } else if (userType === "FARMACIA") {
+    servicosBase.unshift({ label: "Validar Receita", href: "/farmacia/validar" });
+  } else if (userType === "PACIENTE") {
+    servicosBase.unshift({ label: "Minhas Receitas", href: "/paciente/receitas" });
+  }
+
+  return {
+    servicos: servicosBase,
+    suporte: [
+      { label: "Nos Contate", href: "/contato" },
+      { label: "Sobre o Sistema", href: "/sobre" },
+      { label: "Serviços", href: "/servicos" },
+    ],
+    empresa: [
+      { label: "Sobre Nós", href: "/sobre" },
+      { label: "Página Inicial", href: "/" },
+    ],
+  };
 };
 
 export const Footer = () => {
+  const { user } = useAuth();
+  const footerLinks = getFooterLinks(user?.tipo);
+
   return (
     <footer className="bg-navy text-white">
       <div className="container mx-auto px-4 py-12">
