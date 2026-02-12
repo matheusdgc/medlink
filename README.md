@@ -134,7 +134,7 @@ Farmacia (1) <-> (N) Dispensacoes
 ### 1. Clonar o Repositorio
 
 ```bash
-git clone https://github.com/seu-usuario/medlink.git
+git clone https://github.com/matheusdgc/medlink.git
 cd medlink
 ```
 
@@ -199,14 +199,14 @@ O frontend estara disponivel em `http://localhost:5173` e o backend em `http://l
 
 Apos executar o seed, os seguintes usuarios estarao disponiveis:
 
-| Tipo     | Email                   | Senha  | CPF         |
-| -------- | ----------------------- | ------ | ----------- |
-| Medico   | medico@medlink.com      | 123456 | -           |
-| Farmacia | farmacia@medlink.com    | 123456 | -           |
-| Paciente | maria.silva@email.com   | -      | 12345678900 |
-| Paciente | jose.oliveira@email.com | -      | 98765432100 |
+| Tipo     | Email                   | Senha  | CPF         | Nascimento |
+| -------- | ----------------------- | ------ | ----------- | ---------- |
+| Medico   | medico@medlink.com      | 123456 | -           | -          |
+| Farmacia | farmacia@medlink.com    | 123456 | -           | -          |
+| Paciente | maria.silva@email.com   | -      | 12345678900 | 15/05/1998 |
+| Paciente | jose.oliveira@email.com | -      | 98765432100 | 22/08/1975 |
 
-Pacientes fazem login com CPF + Data de Nascimento.
+OBS: Pacientes fazem login com CPF + Data de Nascimento.
 
 ## Estrutura do Projeto
 
@@ -332,4 +332,4 @@ Equipe:
 
 ---
 
-Para mais informacoes sobre a API, consulte a documentacao em [backend/README.md](backend/README.md).
+Para mais informacoes sobre a API, consulte a documentacao em [github.com/matheusdgc/medlink-api].
