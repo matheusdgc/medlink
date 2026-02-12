@@ -273,7 +273,7 @@ O sistema implementa diversas camadas de seguranca:
 
 ## API
 
-A documentacao completa da API esta disponivel em [backend/README.md](backend/README.md).
+A documentacao completa da API esta disponivel em github.com/matheusdgc/medlink-api.
 
 ### Principais Endpoints
 
@@ -332,4 +332,4 @@ Equipe:
 
 ---
 
-Para mais informacoes sobre a API, consulte a documentacao em [github.com/matheusdgc/medlink-api].
+Para mais informacoes sobre a API, consulte a documentacao em <b>github.com/matheusdgc/medlink-api</b>.
