@@ -7,6 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
+import { BackButton } from "@/components/ui/back-button";
 import {
   Dialog,
   DialogContent,
@@ -26,11 +27,14 @@ import {
   XCircle,
   Copy,
   Check,
+  Download,
 } from "lucide-react";
 import { pacientesApi } from "@/services/api";
+import { useAuth } from "@/contexts/AuthContext";
 import { useToast } from "@/hooks/use-toast";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
+import { exportarReceitaPdf } from "@/utils/exportarReceita";
 
 type ReceitaStatus = "ATIVA" | "DISPENSADA" | "VENCIDA" | "CANCELADA";
 
@@ -104,6 +108,7 @@ const statusConfig: Record<
 const ReceitasPaciente = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
+  const { user } = useAuth();
 
   const [receitas, setReceitas] = useState<Receita[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -189,22 +194,18 @@ const ReceitasPaciente = () => {
       <Header />
 
       <main className="flex-1 container mx-auto px-4 py-6">
-        {/* Breadcrumb */}
-        <div className="flex items-center gap-2 text-sm text-muted-foreground mb-6">
-          <button
-            onClick={() => navigate("/")}
-            className="hover:text-teal transition-colors flex items-center gap-1"
-          >
-            <ArrowLeft className="w-4 h-4" />
-            Início
-          </button>
-          <span>/</span>
-          <span className="text-foreground">Minhas Receitas</span>
+        {/* Header */}
+        <div className="flex items-center gap-4 mb-6">
+          <BackButton to="/" label="Voltar ao inicio" />
+          <div>
+            <h1 className="text-2xl font-display font-bold text-navy">
+              Minhas Receitas
+            </h1>
+            <p className="text-sm text-muted-foreground mt-0.5">
+              Consulte suas receitas medicas emitidas
+            </p>
+          </div>
         </div>
-
-        <h1 className="text-2xl font-display font-bold text-navy mb-6">
-          Minhas Receitas
-        </h1>
 
         {/* Barra de busca */}
         <div className="relative mb-4">
@@ -373,6 +374,20 @@ const ReceitasPaciente = () => {
                     ) : (
                       <Copy className="w-4 h-4" />
                     )}
+                  </Button>
+                  {/* Botao de download do PDF da receita individual.
+                      Gera um documento com QR Code, dados do medico, paciente
+                      e medicamentos — pronto para apresentar na farmacia. */}
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="h-8 gap-1.5 text-teal border-teal hover:bg-teal hover:text-white"
+                    onClick={() =>
+                      exportarReceitaPdf(receitaSelecionada, user?.nome ?? "Paciente")
+                    }
+                  >
+                    <Download className="w-3.5 h-3.5" />
+                    PDF
                   </Button>
                 </div>
               </div>

@@ -198,12 +198,15 @@ const LoginProfissional = () => {
     }
 
     try {
-      await loginProfissional({ email, senha });
-      if (tipo === "medico") {
-        navigate("/medico");
-      } else {
-        navigate("/farmacia");
-      }
+      const userTipo = await loginProfissional({ email, senha });
+      // Navega para o dashboard correto baseado no tipo retornado pela API,
+      // nao no query param ?tipo= (que e apenas visual na tela de login)
+      const dashboardMap: Record<string, string> = {
+        MEDICO: "/medico",
+        FARMACIA: "/farmacia",
+        ADMIN: "/admin",
+      };
+      navigate(dashboardMap[userTipo] ?? "/");
     } catch (error) {
     }
   };

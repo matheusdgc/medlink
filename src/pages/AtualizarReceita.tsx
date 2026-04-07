@@ -27,6 +27,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { useToast } from "@/hooks/use-toast";
 import { receitasApi } from "@/services/api";
+import { BackButton } from "@/components/ui/back-button";
 import {
   ArrowLeft,
   Search,
@@ -252,13 +253,7 @@ const AtualizarReceita = () => {
         <div className="max-w-6xl mx-auto">
           {/* Header */}
           <div className="flex items-center gap-4 mb-8">
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => navigate("/medico")}
-            >
-              <ArrowLeft className="h-5 w-5" />
-            </Button>
+            <BackButton to="/medico" label="Voltar ao painel do medico" />
             <div>
               <h1 className="font-display text-2xl font-bold text-foreground">
                 Atualizar Receita

@@ -27,6 +27,7 @@ export interface NovoPacienteForm {
   telefone: string;
   email: string;
   cartaoSus: string;
+  pin: string;
 }
 
 export type EtapaReceita = "formulario" | "conferencia";
@@ -49,4 +50,5 @@ export const NOVO_PACIENTE_INICIAL: NovoPacienteForm = {
   telefone: "",
   email: "",
   cartaoSus: "",
+  pin: "",
 };

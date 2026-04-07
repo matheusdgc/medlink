@@ -4,6 +4,7 @@ import { Footer } from "@/components/layout/Footer";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, CheckCircle } from "lucide-react";
 
+import { BackButton } from "@/components/ui/back-button";
 import { useNovaReceita } from "./useNovaReceita";
 import { BuscaPaciente } from "./BuscaPaciente";
 import { ModalCriarPaciente } from "./ModalCriarPaciente";
@@ -100,19 +101,14 @@ export default function NovaReceita() {
       <main className="flex-1 container mx-auto px-4 py-8">
         <div className="max-w-4xl mx-auto">
           {/* Header */}
-          <div className="mb-8">
-            <button
-              onClick={() => navigate("/medico")}
-              className="flex items-center gap-2 text-navy/70 hover:text-navy mb-4"
-            >
-              <ArrowLeft className="w-4 h-4" />
-              <span>Voltar ao Painel</span>
-            </button>
-
-            <h1 className="text-3xl font-bold text-foreground">Nova Receita</h1>
-            <p className="text-muted-foreground">
-              Prescreva medicamentos para seu paciente
-            </p>
+          <div className="flex items-center gap-4 mb-8">
+            <BackButton to="/medico" label="Voltar ao painel do medico" />
+            <div>
+              <h1 className="text-3xl font-bold text-foreground">Nova Receita</h1>
+              <p className="text-muted-foreground">
+                Prescreva medicamentos para seu paciente
+              </p>
+            </div>
           </div>
 
           {/* Buscar Paciente */}

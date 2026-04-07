@@ -140,10 +140,28 @@ export function ModalCriarPaciente({
             <div>
               <Label>Cartão SUS</Label>
               <Input
-                placeholder="Número do cartão SUS"
+                placeholder="Numero do cartao SUS"
                 value={novoPaciente.cartaoSus}
                 onChange={(e) => updateField("cartaoSus", e.target.value)}
               />
+            </div>
+
+            <div className="md:col-span-2">
+              <Label>PIN de Acesso (6 digitos)</Label>
+              <Input
+                type="password"
+                inputMode="numeric"
+                placeholder="------"
+                maxLength={6}
+                value={novoPaciente.pin}
+                onChange={(e) =>
+                  updateField("pin", e.target.value.replace(/\D/g, "").slice(0, 6))
+                }
+                className="tracking-[0.5em] text-center"
+              />
+              <p className="text-xs text-muted-foreground mt-1">
+                PIN numerico para o paciente acessar o sistema. Se nao informado, o login sera apenas por CPF + data de nascimento.
+              </p>
             </div>
           </div>
 

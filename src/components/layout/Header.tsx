@@ -51,6 +51,8 @@ export const Header = ({
         return "/medico";
       case "FARMACIA":
         return "/farmacia";
+      case "ADMIN":
+        return "/admin";
       default:
         return "/";
     }

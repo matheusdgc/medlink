@@ -1,335 +1,190 @@
-# MedLink - Sistema de Gestao de Receitas Medicas Digitais
+# MedLink — Sistema de Receitas Médicas Digitais
 
-MedLink e uma plataforma web completa para gestao de receitas medicas digitais, desenvolvida como Trabalho de Conclusao de Curso (TCC) para o curso tecnico de Desenvolvimento de Sistemas da Etec Dr. Demetrio Azevedo Jr. O sistema conecta medicos, farmacias e pacientes em um fluxo digital seguro para prescricao, validacao e dispensacao de medicamentos.
+Plataforma web completa para gestão de receitas médicas digitais, desenvolvida como **Trabalho de Conclusão de Curso (TCC)** para o curso técnico de Desenvolvimento de Sistemas da **Etec Dr. Demétrio Azevedo Jr.**
 
-## Sumario
+O sistema conecta médicos, farmácias e pacientes em um fluxo digital seguro para prescrição, validação e dispensação de medicamentos — substituindo o papel por receitas digitais rastreáveis com QR Code.
 
-- [Sobre o Projeto](#sobre-o-projeto)
-- [Funcionalidades](#funcionalidades)
-- [Arquitetura](#arquitetura)
-- [Tecnologias](#tecnologias)
-- [Requisitos](#requisitos)
-- [Instalacao](#instalacao)
-- [Estrutura do Projeto](#estrutura-do-projeto)
-- [Seguranca](#seguranca)
-- [Licenca](#licenca)
-- [Autores](#autores)
+## Stack Tecnológica
 
-## Sobre o Projeto
+| Camada | Tecnologia |
+|---|---|
+| Framework UI | React 18 + Vite |
+| Linguagem | TypeScript |
+| Roteamento | React Router DOM v6 |
+| Estado global | React Context API |
+| Requisições HTTP | Axios + TanStack Query |
+| Formulários | React Hook Form + Zod |
+| Componentes | shadcn/ui + Radix UI |
+| Estilo | Tailwind CSS |
+| Gráficos | Recharts |
+| Exportação PDF | jsPDF 2.5.1 + jspdf-autotable (CDN) |
+| Exportação Excel | SheetJS / xlsx (CDN) |
+| QR Code (geração) | qrcode-generator (CDN) |
+| QR Code (leitura) | html5-qrcode (CDN) |
+| Deploy | Vercel |
 
-O MedLink nasceu da necessidade de modernizar o sistema de receitas medicas no Brasil. A plataforma digitaliza todo o processo de prescricao medica, eliminando o uso de papel e reduzindo fraudes, ao mesmo tempo em que facilita o acesso dos pacientes aos seus medicamentos.
+## Funcionalidades por Perfil
 
-### Problema
+### Médico
+- Dashboard com resumo de atividade (receitas ativas, dispensadas, vencidas)
+- Emissão de novas receitas com múltiplos medicamentos, posologia, diagnóstico e observações
+- Listagem e filtragem de receitas emitidas
+- Atualização e cancelamento de receitas
+- Busca e cadastro de pacientes
+- Visualização do prontuário resumido do paciente
+- Consulta de bulas de medicamentos (geradas por IA)
+- Gerenciamento de unidades de saúde vinculadas
+- Exportação de relatórios em PDF e Excel com filtros por período
 
-- Receitas em papel sao facilmente falsificadas
-- Dificuldade de rastreabilidade de prescricoes
-- Pacientes perdem receitas fisicas
-- Farmacias tem dificuldade em validar autenticidade
+### Farmácia
+- Dashboard com atividade do dia
+- Validação de receitas por código digitado **ou câmera (scan de QR Code)**
+- Exibição de todos os dados da receita antes da dispensação
+- Registro de dispensação com confirmação
+- Histórico de dispensações realizadas
 
-### Solucao
+### Paciente
+- Login via CPF
+- Listagem de todas as receitas em aberto e históricas
+- Visualização detalhada de cada receita
+- **Exportação da receita individual em PDF** com QR Code integrado
+- Cópia do código da receita com um clique
 
-- Receitas digitais com codigo unico de validacao
-- Rastreabilidade completa do ciclo de vida da receita
-- Acesso do paciente via CPF e data de nascimento
-- Validacao instantanea por codigo ou busca por CPF
+### Admin Master
+- Acesso a todos os módulos do sistema (médico, farmácia, paciente)
+- Dashboard executivo com totais globais (receitas, pacientes, médicos, farmácias)
+- Gerenciamento de receitas: listagem de todas as receitas do sistema, busca por paciente, filtro por status
+- **Deleção permanente** de receitas com confirmação detalhada
+- Acesso aos relatórios analíticos
 
-## Funcionalidadesgit status
-
-### Para Medicos
-
-- Criacao de receitas digitais com multiplos medicamentos
-- Cadastro de pacientes durante a consulta
-- Historico completo de prescricoes
-- Renovacao de receitas existentes
-- Consulta de bulas de medicamentos
-
-### Para Farmacias
-
-- Validacao de receitas por codigo unico
-- Busca de receitas ativas por CPF do paciente
-- Registro de dispensacao com detalhamento
-- Historico de dispensacoes realizadas
-- Consulta de bulas de medicamentos
-
-### Para Pacientes
-
-- Acesso as receitas via CPF e data de nascimento
-- Visualizacao do historico de medicamentos
-- Localizacao de unidades de saude
-- Consulta de bulas de medicamentos
-
-## Arquitetura
-
-O projeto segue uma arquitetura cliente-servidor com separacao clara entre frontend e backend:
+## Estrutura de Telas
 
 ```
-medlink/
-├── src/                    # Frontend (React + TypeScript)
-│   ├── components/         # Componentes reutilizaveis
-│   ├── contexts/           # Contextos React (Auth)
-│   ├── hooks/              # Hooks customizados
-│   ├── pages/              # Paginas da aplicacao
-│   ├── services/           # Comunicacao com API
-│   └── lib/                # Utilitarios
-│
-└── backend/                # Backend (Node.js + Express)
-    ├── prisma/             # Schema e migrations
-    └── src/
-        ├── config/         # Configuracoes
-        ├── middleware/     # Middlewares (auth, rate-limit)
-        ├── modules/        # Modulos da aplicacao
-        └── types/          # Tipos TypeScript
+/                           → Landing page pública
+/login                      → Login paciente (CPF)
+/login/profissional         → Login médico, farmácia e admin (e-mail)
+/registro                   → Cadastro de médico/farmácia
+
+/medico                     → Dashboard médico
+/medico/nova-receita        → Emissão de nova receita
+/medico/receitas            → Listagem de receitas
+/medico/receitas/:id/editar → Edição de receita
+/medico/pacientes           → Busca de pacientes
+/medico/pacientes/:id       → Prontuário do paciente
+/medico/bulas               → Consulta de bulas
+/medico/perfil              → Perfil e dados do médico
+/medico/relatorios          → Relatórios exportáveis (PDF/Excel)
+
+/farmacia                   → Dashboard farmácia
+/farmacia/validar           → Validação de receita (código ou QR scan)
+/farmacia/historico         → Histórico de dispensações
+/farmacia/perfil            → Perfil da farmácia
+
+/paciente                   → Dashboard paciente
+/paciente/receitas          → Receitas do paciente
+
+/admin                      → Dashboard admin
+/admin/gerenciar-receitas   → Gerenciamento e deleção de receitas
+/admin/relatorios           → Relatórios do sistema
+
+/unidades-saude             → Listagem pública de unidades
+/admin/unidades-saude       → Gerenciamento de unidades (médico/farmácia/admin)
 ```
 
-### Modelo de Dados
+## Arquitetura do Frontend
 
+### Autenticação e Proteção de Rotas
+
+O `AuthContext` gerencia o estado do usuário autenticado. O componente `ProtectedRoute` verifica o tipo do usuário e redireciona automaticamente caso ele tente acessar uma rota não autorizada:
+
+```typescript
+// dashboardRoutes: mapa centralizado de redirecionamento
+const dashboardRoutes = {
+  PACIENTE: "/paciente",
+  MEDICO:   "/medico",
+  FARMACIA: "/farmacia",
+  ADMIN:    "/admin",
+};
 ```
-Usuario (1) <-> (1) Paciente | Medico | Farmacia
-Paciente (1) <-> (N) Receitas
-Medico (1) <-> (N) Receitas
-Receita (1) <-> (N) ItemReceita
-Receita (1) <-> (0..1) Dispensacao
-Farmacia (1) <-> (N) Dispensacoes
+
+### Exportação de PDF com QR Code
+
+As receitas individuais são exportadas com a função `exportarReceitaPdf()` em `src/utils/exportarReceita.ts`. O PDF é gerado diretamente no navegador via **jsPDF** (sem servidor), com um QR Code embarcado gerado pelo **qrcode-generator** e inserido como imagem PNG via `doc.addImage()`.
+
+O PDF inclui: cabeçalho MedLink, QR Code no canto superior direito, bloco do paciente, bloco do médico com CRM/especialidade, itens numerados com posologia e quantidade, observações, e código de verificação no rodapé.
+
+### Scanner de QR Code
+
+A tela de validação da farmácia (`/farmacia/validar`) usa **html5-qrcode** para ler QR Codes via câmera do dispositivo. O scanner é montado dentro de um `useEffect` com lifecycle controlado via `useRef`, garantindo que o elemento DOM `div#qr-reader-element` exista antes da inicialização.
+
+Ao escanear, o código é passado diretamente como parâmetro para a função de busca (evitando o problema de closure de state do React com callbacks assíncronos).
+
+### Bibliotecas via CDN
+
+Para evitar aumentar o bundle do Vite, as bibliotecas de exportação são carregadas como scripts no `index.html`:
+
+```html
+<script src="jspdf.umd.min.js"></script>
+<script src="jspdf.plugin.autotable.min.js"></script>
+<script src="xlsx.full.min.js"></script>
+<script src="qrcode.min.js"></script>
+<script src="html5-qrcode.min.js"></script>
 ```
 
-## Tecnologias
+Elas ficam disponíveis como globais em `window` e são acessadas com `(window as any).jspdf`, `(window as any).XLSX`, etc.
 
-### Frontend
+## Instalação e Configuração
 
-| Tecnologia      | Versao | Descricao                        |
-| --------------- | ------ | -------------------------------- |
-| React           | 18.x   | Biblioteca para interfaces       |
-| TypeScript      | 5.x    | Tipagem estatica                 |
-| Vite            | 5.x    | Build tool                       |
-| TailwindCSS     | 3.x    | Framework CSS                    |
-| shadcn/ui       | -      | Componentes de UI                |
-| React Router    | 6.x    | Roteamento                       |
-| TanStack Query  | 5.x    | Gerenciamento de estado servidor |
-| React Hook Form | 7.x    | Formularios                      |
-| Zod             | 3.x    | Validacao de schemas             |
-| Axios           | 1.x    | Cliente HTTP                     |
+### 1. Pré-requisitos
 
-### Backend
+- Node.js 18+
+- Backend `medlink-api` rodando (veja o repositório da API)
 
-| Tecnologia         | Versao | Descricao                   |
-| ------------------ | ------ | --------------------------- |
-| Node.js            | 18+    | Runtime JavaScript          |
-| Express            | 4.x    | Framework web               |
-| TypeScript         | 5.x    | Tipagem estatica            |
-| Prisma             | 5.x    | ORM                         |
-| PostgreSQL         | 14+    | Banco de dados              |
-| JWT                | -      | Autenticacao                |
-| bcryptjs           | -      | Hash de senhas              |
-| Zod                | 3.x    | Validacao                   |
-| express-rate-limit | -      | Protecao contra forca bruta |
-
-## Requisitos
-
-- Node.js 18 ou superior
-- PostgreSQL 14 ou superior
-- npm ou yarn
-
-## Instalacao
-
-### 1. Clonar o Repositorio
+### 2. Clonar e instalar
 
 ```bash
-git clone https://github.com/matheusdgc/medlink.git
+git clone https://github.com/matheusdgc/medlink
 cd medlink
-```
-
-### 2. Instalar Dependencias do Frontend
-
-```bash
 npm install
 ```
 
-### 3. Instalar Dependencias do Backend
+### 3. Variável de ambiente
 
-```bash
-cd backend
-npm install
-```
-
-### 4. Configurar Variaveis de Ambiente
-
-Crie o arquivo `backend/.env` com base no exemplo:
+Crie um arquivo `.env` na raiz:
 
 ```env
-DATABASE_URL="postgresql://postgres:sua_senha@localhost:5432/medlink?schema=public"
-JWT_SECRET="sua-chave-secreta-segura"
-JWT_REFRESH_SECRET="sua-chave-refresh-segura"
-JWT_EXPIRES_IN="1d"
-JWT_REFRESH_EXPIRES_IN="30d"
-FRONTEND_URL="http://localhost:5173"
-NODE_ENV="development"
-PORT=3333
+VITE_API_URL=http://localhost:3000/api
 ```
 
-### 5. Configurar Banco de Dados
+Para produção (Vercel), configure a variável `VITE_API_URL` apontando para a URL da API em produção.
+
+### 4. Executar
 
 ```bash
-# Criar banco de dados
-psql -U postgres -c "CREATE DATABASE medlink;"
-
-# Aplicar schema
-cd backend
-npm run db:push
-
-# Popular com dados de teste
-npm run db:seed
-```
-
-### 6. Iniciar a Aplicacao
-
-Em terminais separados:
-
-```bash
-# Terminal 1 - Backend
-cd backend
+# Desenvolvimento
 npm run dev
 
-# Terminal 2 - Frontend
-npm run dev
+# Build para produção
+npm run build
 ```
 
-O frontend estara disponivel em `http://localhost:5173` e o backend em `http://localhost:3333`.
+O app estará disponível em `http://localhost:5173`.
 
-### Usuarios de Teste
+## Usuários de Teste
 
-Apos executar o seed, os seguintes usuarios estarao disponiveis:
+| Tipo | E-mail | Senha | CPF |
+|---|---|---|---|
+| Médico | medico@medlink.com | 123456 | — |
+| Farmácia | farmacia@medlink.com | 123456 | — |
+| Paciente | — | — | 000.000.000-00 |
+| Admin | admin@medlink.com | 123456 | — |
 
-| Tipo     | Email                   | Senha  | CPF         | Nascimento |
-| -------- | ----------------------- | ------ | ----------- | ---------- |
-| Medico   | medico@medlink.com      | 123456 | -           | -          |
-| Farmacia | farmacia@medlink.com    | 123456 | -           | -          |
-| Paciente | maria.silva@email.com   | -      | 12345678900 | 15/05/1998 |
-| Paciente | jose.oliveira@email.com | -      | 98765432100 | 22/08/1975 |
+Os usuários são criados ao executar `npx prisma db seed` no backend.
 
-OBS: Pacientes fazem login com CPF + Data de Nascimento.
+## Deploy
 
-## Estrutura do Projeto
+O frontend está configurado para deploy na **Vercel** com o arquivo `vercel.json` já incluso no repositório (necessário para que o React Router funcione corretamente com o servidor de arquivos estáticos da Vercel, redirecionando todas as rotas para `index.html`).
 
-```
-medlink/
-├── public/                 # Arquivos estaticos
-├── src/
-│   ├── components/
-│   │   ├── layout/         # Header, Footer
-│   │   └── ui/             # Componentes shadcn/ui
-│   ├── contexts/
-│   │   └── AuthContext.tsx # Contexto de autenticacao
-│   ├── hooks/              # use-toast, use-mobile
-│   ├── lib/
-│   │   └── utils.ts        # Funcoes utilitarias
-│   ├── pages/              # Paginas da aplicacao
-│   ├── services/
-│   │   └── api.ts          # Cliente API
-│   ├── App.tsx             # Componente raiz
-│   └── main.tsx            # Entry point
-├── backend/
-│   ├── prisma/
-│   │   ├── schema.prisma   # Modelo de dados
-│   │   └── seed.ts         # Dados iniciais
-│   └── src/
-│       ├── config/         # database.ts, env.ts
-│       ├── middleware/     # auth.ts, rateLimiter.ts, errorHandler.ts
-│       ├── modules/
-│       │   ├── auth/       # Autenticacao
-│       │   ├── pacientes/  # CRUD pacientes
-│       │   ├── receitas/   # CRUD receitas
-│       │   ├── bulas/      # Consulta bulas
-│       │   └── unidades-saude/
-│       ├── types/          # Tipos TypeScript
-│       └── index.ts        # Entry point
-├── package.json
-└── README.md
-```
+## Projeto
 
-## Seguranca
-
-O sistema implementa diversas camadas de seguranca:
-
-### Autenticacao
-
-- JWT com access token (1 dia) e refresh token (30 dias)
-- Senhas hasheadas com bcrypt
-- Login de pacientes requer CPF + data de nascimento
-
-### Rate Limiting
-
-| Endpoint            | Limite          | Janela     |
-| ------------------- | --------------- | ---------- |
-| Global              | 100 requisicoes | 15 minutos |
-| Login               | 5 tentativas    | 15 minutos |
-| Criacao de conta    | 3 contas        | 1 hora     |
-| Operacoes sensiveis | 30 operacoes    | 15 minutos |
-
-### Autorizacao
-
-- Rotas protegidas por tipo de usuario (MEDICO, FARMACIA, PACIENTE)
-- Verificacao de propriedade de recursos
-- Middleware de validacao com Zod
-
-## API
-
-A documentacao completa da API esta disponivel em github.com/matheusdgc/medlink-api.
-
-### Principais Endpoints
-
-```
-POST /api/auth/login/profissional  - Login medico/farmacia
-POST /api/auth/login/paciente      - Login paciente
-GET  /api/auth/me                  - Perfil do usuario
-GET  /api/receitas                 - Listar receitas
-POST /api/receitas                 - Criar receita
-POST /api/receitas/:id/dispensar   - Dispensar receita
-GET  /api/pacientes                - Listar pacientes
-GET  /api/unidades-saude           - Listar unidades
-GET  /api/bulas/consultar/:nome    - Consultar bula
-```
-
-## Scripts Disponiveis
-
-### Frontend
-
-```bash
-npm run dev          # Servidor de desenvolvimento
-npm run build        # Build de producao
-npm run preview      # Visualizar build
-npm run lint         # Executar linter
-```
-
-### Backend
-
-```bash
-npm run dev          # Servidor de desenvolvimento
-npm run build        # Compilar TypeScript
-npm run start        # Iniciar build de producao
-npm run db:generate  # Gerar cliente Prisma
-npm run db:push      # Aplicar schema no banco
-npm run db:migrate   # Criar migration
-npm run db:studio    # Abrir Prisma Studio
-npm run db:seed      # Popular banco de dados
-```
-
-## Licenca
-
-Este projeto esta licenciado sob a Licenca MIT - consulte o arquivo [LICENSE](LICENSE) para mais detalhes.
-
-Este projeto foi desenvolvido para fins academicos como Trabalho de Conclusao de Curso.
-
-## Autores
-
-Desenvolvido como Trabalho de Conclusao de Curso (TCC) para o curso tecnico de Desenvolvimento de Sistemas da Etec Dr. Demetrio Azevedo Jr.
-
-Equipe:
-
-- Matheus D. Gomes Chichura
-- Ricardo Santos Orestes Junior
-- Joao Victor da Silva Paula
-- Pedro Luciano Batista de Paula
-
----
-
-Para mais informacoes sobre a API, consulte a documentacao em <b>github.com/matheusdgc/medlink-api</b>.
+Este sistema foi desenvolvido como TCC do curso técnico de Desenvolvimento de Sistemas na **Etec Dr. Demétrio Azevedo Jr.** O objetivo é demonstrar o desenvolvimento completo de uma aplicação web full-stack com autenticação, controle de acesso, integrações externas (IA para bulas, QR Code) e exportação de documentos.

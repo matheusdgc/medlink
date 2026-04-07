@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
@@ -23,9 +23,12 @@ import {
   Clock,
   CreditCard,
   FileText,
+  Camera,
+  X,
 } from "lucide-react";
 import { receitasApi, pacientesApi } from "@/services/api";
 import { useToast } from "@/hooks/use-toast";
+import { BackButton } from "@/components/ui/back-button";
 import {
   Dialog,
   DialogContent,
@@ -99,9 +102,86 @@ const ValidarReceita = () => {
   const [showConfirmDialog, setShowConfirmDialog] = useState(false);
   const [isDispensando, setIsDispensando] = useState(false);
   const [activeTab, setActiveTab] = useState("codigo");
-  const [itensDispensados, setItensDispensados] = useState<ItemDispensado[]>(
-    []
-  );
+  const [itensDispensados, setItensDispensados] = useState<ItemDispensado[]>([]);
+
+  // Estados do leitor de QR Code via camera
+  const [scannerAberto, setScannerAberto] = useState(false);
+  const [erroCamera, setErroCamera] = useState<string | null>(null);
+  // Ref para a instancia do Html5Qrcode — necessario para parar a camera
+  // no cleanup do useEffect sem capturar um valor desatualizado em closures
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const html5QrRef = useRef<any>(null);
+
+  /**
+   * Gerencia o ciclo de vida da camera.
+   *
+   * Por que useEffect com [scannerAberto]?
+   *   Quando scannerAberto muda para true, a div#qr-reader ainda nao esta
+   *   no DOM (React renderiza no proximo tick). O setTimeout de 150ms garante
+   *   que o elemento existe antes de montar o scanner.
+   *
+   * Cleanup da funcao:
+   *   Quando scannerAberto volta para false (usuario fecha o modal) ou o
+   *   componente e desmontado, chamamos html5QrRef.current.stop() para
+   *   liberar a camera e evitar o aviso "camera still in use" no navegador.
+   */
+  useEffect(() => {
+    if (!scannerAberto) return;
+
+    setErroCamera(null);
+
+    const timerId = window.setTimeout(() => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const Html5Qrcode = (window as any).Html5Qrcode;
+      if (!Html5Qrcode) {
+        setErroCamera("Biblioteca de leitura nao carregada. Recarregue a pagina.");
+        setScannerAberto(false);
+        return;
+      }
+
+      const scanner = new Html5Qrcode("qr-reader-element");
+      html5QrRef.current = scanner;
+
+      scanner
+        .start(
+          // "environment" = camera traseira do celular (ideal para QR Code)
+          { facingMode: "environment" },
+          { fps: 10, qrbox: { width: 240, height: 240 } },
+          // onScanSuccess: codigo lido com sucesso
+          (decodedText: string) => {
+            setCodigoReceita(decodedText);
+            scanner.stop().then(() => {
+              html5QrRef.current = null;
+              setScannerAberto(false);
+              // Dispara a busca diretamente com o codigo escaneado,
+              // evitando depender do estado React que ainda nao atualizou
+              buscarReceitaPorCodigo(decodedText);
+            });
+          },
+          // onScanFailure: frame sem QR Code — silencioso para nao poluir console
+          () => {}
+        )
+        .catch((err: unknown) => {
+          console.error("[QrScanner] Falha ao iniciar camera:", err);
+          setErroCamera(
+            "Nao foi possivel acessar a camera. Verifique as permissoes do navegador."
+          );
+          html5QrRef.current = null;
+          setScannerAberto(false);
+        });
+    }, 150);
+
+    return () => {
+      clearTimeout(timerId);
+      if (html5QrRef.current) {
+        html5QrRef.current.stop().catch(() => {});
+        html5QrRef.current = null;
+      }
+    };
+  // buscarReceitaPorCodigo e definida abaixo mas nao precisa ser dependencia
+  // porque ela e uma funcao estavel (nao usa estado capturado em closure problemática)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [scannerAberto]);
 
   const inicializarItensDispensados = (receitaCarregada: Receita) => {
     const itens = receitaCarregada.itens.map((item) => ({
@@ -142,8 +222,15 @@ const ValidarReceita = () => {
     setCpfPaciente(formatted);
   };
 
-  const buscarReceita = async () => {
-    if (!codigoReceita.trim()) {
+  /**
+   * Busca uma receita pelo codigo.
+   * Aceita um parametro opcional `codigoOverride` para quando o codigo vem
+   * do scanner de QR Code — nesse caso o estado codigoReceita ainda nao foi
+   * atualizado pelo React, entao passamos o valor diretamente.
+   */
+  const buscarReceitaPorCodigo = async (codigoOverride?: string) => {
+    const codigo = (codigoOverride ?? codigoReceita).trim();
+    if (!codigo) {
       toast({
         title: "Erro",
         description: "Digite o código da receita",
@@ -157,7 +244,7 @@ const ValidarReceita = () => {
     setReceitasPaciente([]);
 
     try {
-      const response = await receitasApi.buscarPorCodigo(codigoReceita.trim());
+      const response = await receitasApi.buscarPorCodigo(codigo);
       const receitaCarregada = response.data.data;
       setReceita(receitaCarregada);
       inicializarItensDispensados(receitaCarregada);
@@ -173,6 +260,9 @@ const ValidarReceita = () => {
       setIsLoading(false);
     }
   };
+
+  // Alias para manter compatibilidade com as chamadas existentes (onKeyDown, botao buscar)
+  const buscarReceita = () => buscarReceitaPorCodigo();
 
   const buscarPorCpf = async () => {
     if (!cpfPaciente.trim() || cpfPaciente.replace(/\D/g, "").length < 11) {
@@ -343,18 +433,14 @@ const ValidarReceita = () => {
       <main className="flex-1 container mx-auto px-4 py-8">
         <div className="max-w-4xl mx-auto">
           {/* Header */}
-          <div className="mb-8">
-            <button
-              onClick={() => navigate("/farmacia")}
-              className="flex items-center gap-2 text-gray-600 hover:text-navy transition-colors mb-4"
-            >
-              <ArrowLeft className="w-4 h-4" />
-              <span className="text-sm">Voltar ao Painel</span>
-            </button>
-            <h1 className="text-3xl font-bold text-navy">Validar Receita</h1>
-            <p className="text-gray-600 mt-1">
-              Busque pelo código da receita ou pelo CPF do paciente
-            </p>
+          <div className="flex items-center gap-4 mb-8">
+            <BackButton to="/farmacia" label="Voltar ao painel da farmacia" />
+            <div>
+              <h1 className="font-display text-2xl font-bold text-foreground">Validar Receita</h1>
+              <p className="text-muted-foreground mt-1">
+                Busque pelo código da receita ou pelo CPF do paciente
+              </p>
+            </div>
           </div>
 
           {/* Busca com Tabs */}
@@ -393,7 +479,17 @@ const ValidarReceita = () => {
                         <QrCode className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
                       </div>
                     </div>
-                    <div className="flex items-end">
+                    <div className="flex items-end gap-2">
+                      {/* Botao de camera — abre o leitor de QR Code */}
+                      <Button
+                        variant="outline"
+                        onClick={() => setScannerAberto(true)}
+                        disabled={isLoading}
+                        className="h-12 px-4 border-2 border-teal text-teal hover:bg-teal hover:text-white"
+                        title="Escanear QR Code com a camera"
+                      >
+                        <Camera className="w-5 h-5" />
+                      </Button>
                       <Button
                         onClick={buscarReceita}
                         disabled={isLoading || !codigoReceita.trim()}
@@ -410,6 +506,14 @@ const ValidarReceita = () => {
                       </Button>
                     </div>
                   </div>
+
+                  {/* Feedback de erro de camera */}
+                  {erroCamera && (
+                    <p className="mt-2 text-sm text-red-600 flex items-center gap-1">
+                      <AlertCircle className="w-4 h-4" />
+                      {erroCamera}
+                    </p>
+                  )}
                 </TabsContent>
 
                 <TabsContent value="cpf">
@@ -781,6 +885,44 @@ const ValidarReceita = () => {
             )}
         </div>
       </main>
+
+      {/* Modal do leitor de QR Code via camera
+          A div#qr-reader-element e o ponto de montagem da biblioteca html5-qrcode.
+          O scanner e inicializado pelo useEffect quando scannerAberto=true. */}
+      <Dialog open={scannerAberto} onOpenChange={(open) => { if (!open) setScannerAberto(false); }}>
+        <DialogContent className="max-w-sm">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <QrCode className="w-5 h-5 text-teal" />
+              Escanear QR Code
+            </DialogTitle>
+            <DialogDescription>
+              Aponte a camera para o QR Code impresso na receita do paciente.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-3">
+            {/* Container onde html5-qrcode monta o video da camera.
+                O id deve ser fixo e unico na pagina. */}
+            <div
+              id="qr-reader-element"
+              className="w-full rounded-lg overflow-hidden bg-black min-h-[260px]"
+            />
+            <p className="text-xs text-center text-muted-foreground">
+              A leitura acontece automaticamente ao detectar um QR Code valido.
+            </p>
+          </div>
+          <DialogFooter>
+            <Button
+              variant="outline"
+              className="w-full"
+              onClick={() => setScannerAberto(false)}
+            >
+              <X className="w-4 h-4 mr-2" />
+              Cancelar
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
 
       {/* Dialog de Confirmação */}
       <Dialog open={showConfirmDialog} onOpenChange={setShowConfirmDialog}>

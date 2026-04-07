@@ -48,11 +48,16 @@ const dateToISO = (ddmmaaaa: string): string => {
   return ddmmaaaa;
 };
 
+const formatPin = (value: string): string => {
+  return value.replace(/\D/g, "").slice(0, 6);
+};
+
 const LoginPaciente = () => {
   const navigate = useNavigate();
   const { loginPaciente, isLoading } = useAuth();
   const [cpfSus, setCpfSus] = useState("");
   const [dataNascimento, setDataNascimento] = useState("");
+  const [pin, setPin] = useState("");
   const [rememberMe, setRememberMe] = useState(true);
 
   const handleCpfChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -73,7 +78,16 @@ const LoginPaciente = () => {
     }
 
     try {
-      await loginPaciente({ cpfOuCartaoSus: cpfSus, dataNascimento: dateToISO(dataNascimento) });
+      const loginData: { cpfOuCartaoSus: string; dataNascimento: string; pin?: string } = {
+        cpfOuCartaoSus: cpfSus,
+        dataNascimento: dateToISO(dataNascimento),
+      };
+      // Envia o PIN apenas se o usuario digitou algo.
+      // Pacientes sem PIN cadastrado nao precisam informar.
+      if (pin.length === 6) {
+        loginData.pin = pin;
+      }
+      await loginPaciente(loginData);
       navigate("/paciente");
     } catch (error) {
     }
@@ -132,6 +146,25 @@ const LoginPaciente = () => {
                 maxLength={10}
                 className="h-14 text-lg border-2 border-border focus:border-teal rounded-xl"
               />
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="pin" className="text-muted-foreground">
+                PIN de Acesso (6 digitos)
+              </Label>
+              <Input
+                id="pin"
+                type="password"
+                inputMode="numeric"
+                value={pin}
+                onChange={(e) => setPin(formatPin(e.target.value))}
+                placeholder="------"
+                maxLength={6}
+                className="h-14 text-lg text-center tracking-[0.5em] border-2 border-border focus:border-teal rounded-xl"
+              />
+              <p className="text-xs text-muted-foreground">
+                Informe o PIN apenas se voce cadastrou um. Caso contrario, deixe em branco.
+              </p>
             </div>
 
             <div className="flex items-center space-x-2">

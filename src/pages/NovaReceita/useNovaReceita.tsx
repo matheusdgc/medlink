@@ -126,6 +126,7 @@ export function useNovaReceita() {
         telefone: novoPaciente.telefone,
         email: novoPaciente.email || undefined,
         cartaoSus: novoPaciente.cartaoSus || undefined,
+        pin: novoPaciente.pin?.length === 6 ? novoPaciente.pin : undefined,
       };
 
       await authApi.registerPaciente(dados);

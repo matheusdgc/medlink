@@ -18,7 +18,9 @@ interface AuthContextData {
   user: User | null;
   isAuthenticated: boolean;
   isLoading: boolean;
-  loginProfissional: (data: LoginProfissionalData) => Promise<void>;
+  // loginProfissional retorna o tipo do usuario para que a pagina de login
+  // possa navegar para o dashboard correto sem depender do query param ?tipo=
+  loginProfissional: (data: LoginProfissionalData) => Promise<User["tipo"]>;
   loginPaciente: (data: LoginPacienteData) => Promise<void>;
   logout: () => Promise<void>;
   refreshUserData: () => Promise<void>;
@@ -73,7 +75,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
     loadStoredData();
   }, []);
 
-  const loginProfissional = useCallback(async (data: LoginProfissionalData) => {
+  const loginProfissional = useCallback(async (data: LoginProfissionalData): Promise<User["tipo"]> => {
     try {
       setIsLoading(true);
       const response = await authApi.loginProfissional(data);
@@ -87,6 +89,10 @@ export function AuthProvider({ children }: AuthProviderProps) {
       setUser(userData);
 
       toast.success(`Bem-vindo(a), ${userData.nome}!`);
+
+      // Retorna o tipo para que a pagina de login possa navegar
+      // para o dashboard correto (incluindo /admin para ADMIN)
+      return userData.tipo;
     } catch (error: any) {
       const message = error.response?.data?.message || "Erro ao fazer login";
       toast.error(message);

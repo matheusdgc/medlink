@@ -13,6 +13,8 @@ import LoginProfissional from "./pages/LoginProfissional";
 import DashboardPaciente from "./pages/DashboardPaciente";
 import DashboardMedico from "./pages/DashboardMedico";
 import DashboardFarmacia from "./pages/DashboardFarmacia";
+import DashboardAdmin from "./pages/DashboardAdmin";
+import GerenciarReceitas from "./pages/GerenciarReceitas";
 import ValidarReceita from "./pages/ValidarReceita";
 import VerPaciente from "./pages/VerPaciente";
 import ReceitasPaciente from "./pages/ReceitasPaciente";
@@ -24,6 +26,7 @@ import UnidadesSaude from "./pages/UnidadesSaude";
 import AdminUnidadesSaude from "./pages/AdminUnidadesSaude";
 import BulasMedicamentos from "./pages/BulasMedicamentos";
 import HistoricoDispensacoes from "./pages/HistoricoDispensacoes";
+import Relatorios from "./pages/Relatorios";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -140,6 +143,14 @@ const App = () => (
                 </ProtectedRoute>
               }
             />
+            <Route
+              path="/medico/relatorios"
+              element={
+                <ProtectedRoute allowedTypes={["MEDICO"]}>
+                  <Relatorios />
+                </ProtectedRoute>
+              }
+            />
 
             <Route
               path="/farmacia"
@@ -189,12 +200,46 @@ const App = () => (
                 </ProtectedRoute>
               }
             />
+            <Route
+              path="/farmacia/relatorios"
+              element={
+                <ProtectedRoute allowedTypes={["FARMACIA"]}>
+                  <Relatorios />
+                </ProtectedRoute>
+              }
+            />
 
             <Route
               path="/admin/unidades-saude"
               element={
-                <ProtectedRoute allowedTypes={["MEDICO", "FARMACIA"]}>
+                <ProtectedRoute allowedTypes={["MEDICO", "FARMACIA", "ADMIN"]}>
                   <AdminUnidadesSaude />
+                </ProtectedRoute>
+              }
+            />
+
+            {/* ========== ROTAS ADMIN ========== */}
+            <Route
+              path="/admin"
+              element={
+                <ProtectedRoute allowedTypes={["ADMIN"]}>
+                  <DashboardAdmin />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin/gerenciar-receitas"
+              element={
+                <ProtectedRoute allowedTypes={["ADMIN"]}>
+                  <GerenciarReceitas />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin/relatorios"
+              element={
+                <ProtectedRoute allowedTypes={["ADMIN"]}>
+                  <Relatorios />
                 </ProtectedRoute>
               }
             />

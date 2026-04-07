@@ -83,6 +83,7 @@ export interface LoginProfissionalData {
 export interface LoginPacienteData {
   cpfOuCartaoSus: string;
   dataNascimento: string;
+  pin?: string;
 }
 
 export interface RegisterMedicoData {
@@ -124,13 +125,14 @@ export interface RegisterPacienteData {
   // Campos opcionais
   email?: string;
   cartaoSus?: string;
+  pin?: string;
 }
 
 export interface User {
   id: string;
   email: string;
   nome: string;
-  tipo: "PACIENTE" | "MEDICO" | "FARMACIA";
+  tipo: "PACIENTE" | "MEDICO" | "FARMACIA" | "ADMIN";
 }
 
 export interface AuthResponse {
@@ -341,6 +343,122 @@ export const bulasApi = {
     api.get<{ status: string; data: string[] }>(
       `/bulas/sugestoes/${encodeURIComponent(termo)}`
     ),
+};
+
+// ==================== ESTATISTICAS API ====================
+
+export interface VisaoGeral {
+  totalReceitas: number;
+  totalPacientes: number;
+  totalMedicos: number;
+  totalDispensacoes: number;
+  receitasAtivas: number;
+  receitasDispensadas: number;
+  receitasVencidas: number;
+  receitasCanceladas: number;
+}
+
+export interface ReceitaPorMes {
+  mes: string;
+  total: number;
+}
+
+export interface MedicamentoRanking {
+  medicamento: string;
+  total: number;
+}
+
+export interface StatusRanking {
+  status: string;
+  total: number;
+}
+
+export interface MedicoRanking {
+  nome: string;
+  crm: string;
+  especialidade: string;
+  total: number;
+}
+
+export interface DiagnosticoRanking {
+  diagnostico: string;
+  totalReceitas: number;
+  pacientesUnicos: number;
+}
+
+export interface MinhasEstatisticas {
+  totalReceitas: number;
+  receitasMes: number;
+  pacientesAtendidos: number;
+  receitasAtivas: number;
+  receitasDispensadas: number;
+  medicamentosTop: MedicamentoRanking[];
+  receitasPorMes: ReceitaPorMes[];
+}
+
+export const estatisticasApi = {
+  visaoGeral: () =>
+    api.get<{ status: string; data: VisaoGeral }>("/estatisticas/visao-geral"),
+
+  receitasPorMes: (meses = 6) =>
+    api.get<{ status: string; data: ReceitaPorMes[] }>(
+      `/estatisticas/receitas-por-mes?meses=${meses}`
+    ),
+
+  medicamentosMaisReceitados: (limite = 10) =>
+    api.get<{ status: string; data: MedicamentoRanking[] }>(
+      `/estatisticas/medicamentos-mais-receitados?limite=${limite}`
+    ),
+
+  receitasPorStatus: () =>
+    api.get<{ status: string; data: StatusRanking[] }>(
+      "/estatisticas/receitas-por-status"
+    ),
+
+  medicosRanking: (limite = 10) =>
+    api.get<{ status: string; data: MedicoRanking[] }>(
+      `/estatisticas/medicos-ranking?limite=${limite}`
+    ),
+
+  diagnosticos: (params?: {
+    limite?: number;
+    busca?: string;
+    mes?: number;
+    ano?: number;
+  }) =>
+    api.get<{ status: string; data: DiagnosticoRanking[] }>(
+      "/estatisticas/diagnosticos",
+      { params }
+    ),
+
+  minhasEstatisticas: () =>
+    api.get<{ status: string; data: MinhasEstatisticas }>(
+      "/estatisticas/minhas"
+    ),
+};
+
+// ==================== ADMIN API ====================
+
+export interface AdminResumo {
+  totalReceitas: number;
+  totalPacientes: number;
+  totalMedicos: number;
+  totalFarmacias: number;
+  receitasPorStatus: Record<string, number>;
+}
+
+export const adminApi = {
+  obterResumo: () =>
+    api.get<{ status: string; data: AdminResumo }>("/admin/resumo"),
+
+  listarReceitas: (params?: {
+    status?: string;
+    pacienteNome?: string;
+    page?: number;
+    limit?: number;
+  }) => api.get("/admin/receitas", { params }),
+
+  deletarReceita: (id: string) => api.delete(`/admin/receitas/${id}`),
 };
 
 export default api;

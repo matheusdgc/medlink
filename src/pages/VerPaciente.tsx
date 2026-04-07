@@ -22,6 +22,7 @@ import {
 } from "@/components/ui/dialog";
 import { useToast } from "@/hooks/use-toast";
 import { pacientesApi } from "@/services/api";
+import { BackButton } from "@/components/ui/back-button";
 import { Label } from "@/components/ui/label";
 import {
   ArrowLeft,
@@ -347,9 +348,7 @@ const VerPaciente = () => {
         <div className="max-w-4xl mx-auto">
           {/* Header */}
           <div className="flex items-center gap-4 mb-8">
-            <Button variant="ghost" size="icon" onClick={() => navigate(-1)}>
-              <ArrowLeft className="h-5 w-5" />
-            </Button>
+            <BackButton label="Voltar" />
             <div>
               <h1 className="font-display text-2xl font-bold text-foreground">
                 Ver Paciente

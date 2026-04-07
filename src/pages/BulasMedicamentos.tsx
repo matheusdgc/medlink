@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Header } from "@/components/layout/Header";
+import { BackButton } from "@/components/ui/back-button";
 import { Footer } from "@/components/layout/Footer";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -387,18 +388,21 @@ const BulasMedicamentos = () => {
 
       <main className="flex-1 container mx-auto px-4 py-8">
         <div className="max-w-4xl mx-auto">
-          {/* Título e Busca */}
-          <div className="text-center mb-8">
-            <h1 className="font-display text-3xl font-bold text-foreground mb-2">
-              Bulas de Medicamentos
-            </h1>
-            <p className="text-muted-foreground">
-              Consulte informações sobre medicamentos
-            </p>
-            <Badge variant="outline" className="mt-2 gap-1">
-              <Sparkles className="h-3 w-3" />
-              Agora com consulta por IA
-            </Badge>
+          {/* Header */}
+          <div className="flex items-center gap-4 mb-8">
+            <BackButton label="Voltar" />
+            <div>
+              <h1 className="font-display text-3xl font-bold text-foreground mb-1">
+                Bulas de Medicamentos
+              </h1>
+              <p className="text-muted-foreground">
+                Consulte informações sobre medicamentos
+              </p>
+              <Badge variant="outline" className="mt-2 gap-1">
+                <Sparkles className="h-3 w-3" />
+                Agora com consulta por IA
+              </Badge>
+            </div>
           </div>
 
           {/* Campo de Busca */}

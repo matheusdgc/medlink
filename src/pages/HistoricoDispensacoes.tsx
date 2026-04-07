@@ -35,6 +35,7 @@ import {
 } from "lucide-react";
 import { receitasApi } from "@/services/api";
 import { useToast } from "@/hooks/use-toast";
+import { BackButton } from "@/components/ui/back-button";
 import { format, parseISO } from "date-fns";
 import { ptBR } from "date-fns/locale";
 
@@ -177,13 +178,16 @@ const HistoricoDispensacoes = () => {
       {/* Hero */}
       <main className="flex-1 container mx-auto px-4 py-8">
         <div className="max-w-6xl mx-auto">
-          <div className="mb-8">
-            <h1 className="font-display text-3xl font-bold text-foreground">
-              Histórico de Dispensações
-            </h1>
-            <p className="text-muted-foreground mt-1">
-              Visualize todas as receitas dispensadas pela farmácia
-            </p>
+          <div className="flex items-center gap-4 mb-8">
+            <BackButton to="/farmacia" label="Voltar ao painel da farmacia" />
+            <div>
+              <h1 className="font-display text-3xl font-bold text-foreground">
+                Histórico de Dispensações
+              </h1>
+              <p className="text-muted-foreground mt-1">
+                Visualize todas as receitas dispensadas pela farmácia
+              </p>
+            </div>
           </div>
 
           {/* Cards de Estatísticas */}
