@@ -191,7 +191,7 @@ Este sistema foi desenvolvido como TCC do curso técnico de Desenvolvimento de S
 
 ## Equipe
 
-Joao Victor da Silva Paula
-Matheus D. Gomes Chichura
-Pedro Luciano Batista de Paula
-Ricardo Santos Orestes Junior
+- Joao Victor da Silva Paula
+- Matheus D. Gomes Chichura
+- Pedro Luciano Batista de Paula
+- Ricardo Santos Orestes Junior
