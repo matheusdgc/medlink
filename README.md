@@ -188,3 +188,10 @@ O frontend está configurado para deploy na **Vercel** com o arquivo `vercel.jso
 ## Projeto
 
 Este sistema foi desenvolvido como TCC do curso técnico de Desenvolvimento de Sistemas na **Etec Dr. Demétrio Azevedo Jr.** O objetivo é demonstrar o desenvolvimento completo de uma aplicação web full-stack com autenticação, controle de acesso, integrações externas (IA para bulas, QR Code) e exportação de documentos.
+
+## Equipe
+
+Joao Victor da Silva Paula
+Matheus D. Gomes Chichura
+Pedro Luciano Batista de Paula
+Ricardo Santos Orestes Junior
