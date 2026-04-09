@@ -172,11 +172,12 @@ O app estará disponível em `http://localhost:5173`.
 
 ## Usuários de Teste
 
-| Tipo | E-mail | Senha | CPF |
+| Tipo | E-mail | Senha | CPF | Data Nascimento |
 |---|---|---|---|
 | Médico | medico@medlink.com | 123456 | — |
 | Farmácia | farmacia@medlink.com | 123456 | — |
-| Paciente | — | — | 000.000.000-00 |
+| Paciente | — | — | 987.654.321-00 | 31/08/1985 |
+| Paciente | — | — | 123.456.789-00 | 14/05/1988 |
 | Admin | admin@medlink.com | 123456 | — |
 
 Os usuários são criados ao executar `npx prisma db seed` no backend.
@@ -191,7 +192,7 @@ Este sistema foi desenvolvido como TCC do curso técnico de Desenvolvimento de S
 
 ## Equipe
 
-- Joao Victor da Silva Paula
-- Matheus D. Gomes Chichura
+- João Victor da Silva Paula
+- Matheus Dias Gomes Chichura
 - Pedro Luciano Batista de Paula
-- Ricardo Santos Orestes Junior
+- Ricardo Santos Prestes Junior
