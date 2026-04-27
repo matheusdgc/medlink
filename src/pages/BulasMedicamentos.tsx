@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Header } from "@/components/layout/Header";
 import { BackButton } from "@/components/ui/back-button";
 import { Footer } from "@/components/layout/Footer";
@@ -312,6 +312,81 @@ const BulasMedicamentos = () => {
     useState<Medicamento | null>(null);
   const [buscandoIA, setBuscandoIA] = useState(false);
 
+  // Estados do autocomplete
+  const [sugestoes, setSugestoes] = useState<string[]>([]);
+  const [mostrarSugestoes, setMostrarSugestoes] = useState(false);
+  const [buscandoSugestoes, setBuscandoSugestoes] = useState(false);
+
+  // Estado do timer de progresso durante consulta IA
+  const [segundosEspera, setSegundosEspera] = useState(0);
+
+  // Refs para controlar o dropdown e o debounce
+  const inputRef = useRef<HTMLInputElement>(null);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+  const sugestaoDebounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  // Fecha o dropdown ao clicar fora do input ou do dropdown
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(e.target as Node) &&
+        inputRef.current &&
+        !inputRef.current.contains(e.target as Node)
+      ) {
+        setMostrarSugestoes(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  // Debounce: dispara busca de sugestoes 600ms apos o usuario parar de digitar
+  // Evita chamar a API a cada tecla pressionada
+  useEffect(() => {
+    if (sugestaoDebounceRef.current) {
+      clearTimeout(sugestaoDebounceRef.current);
+    }
+
+    if (busca.trim().length < 3) {
+      setSugestoes([]);
+      setMostrarSugestoes(false);
+      return;
+    }
+
+    sugestaoDebounceRef.current = setTimeout(async () => {
+      setBuscandoSugestoes(true);
+      try {
+        const response = await bulasApi.sugestoes(busca.trim());
+        const lista = response.data.data as string[];
+        setSugestoes(lista);
+        setMostrarSugestoes(lista.length > 0);
+      } catch {
+        setSugestoes([]);
+        setMostrarSugestoes(false);
+      } finally {
+        setBuscandoSugestoes(false);
+      }
+    }, 600);
+
+    return () => {
+      if (sugestaoDebounceRef.current) clearTimeout(sugestaoDebounceRef.current);
+    };
+  }, [busca]);
+
+  // Timer: enquanto a IA estiver consultando, incrementa segundosEspera a cada 1s
+  // Usado para animar a barra de progresso
+  useEffect(() => {
+    if (!buscandoIA) {
+      setSegundosEspera(0);
+      return;
+    }
+    const interval = setInterval(() => {
+      setSegundosEspera((s) => s + 1);
+    }, 1000);
+    return () => clearInterval(interval);
+  }, [buscandoIA]);
+
   const medicamentosFiltrados = medicamentosBase.filter(
     (med) =>
       med.nome.toLowerCase().includes(busca.toLowerCase()) ||
@@ -359,25 +434,52 @@ const BulasMedicamentos = () => {
 
       setMedicamentoSelecionado(medicamentoIA);
     } catch (error: any) {
-      const message =
-        error.response?.data?.message ||
-        "Não foi possível consultar informações sobre este medicamento";
-      toast({
-        title: "Medicamento não encontrado",
-        description: message,
-        variant: "destructive",
-      });
+      const status = error.response?.status;
+      const message = error.response?.data?.message;
+
+      if (status === 503) {
+        toast({
+          title: "Serviço temporariamente indisponível",
+          description: message || "O serviço de IA está sobrecarregado. Tente novamente em alguns minutos.",
+          variant: "destructive",
+        });
+      } else if (status === 404) {
+        toast({
+          title: "Medicamento não encontrado",
+          description: message || `Não foram encontradas informações sobre "${busca}". Verifique o nome e tente novamente.`,
+          variant: "destructive",
+        });
+      } else {
+        toast({
+          title: "Erro na consulta",
+          description: "Não foi possível consultar informações sobre este medicamento. Tente novamente.",
+          variant: "destructive",
+        });
+      }
     } finally {
       setBuscandoIA(false);
     }
   };
 
+  // Seleciona uma sugestao do dropdown: preenche o input e fecha o dropdown
+  const selecionarSugestao = (sugestao: string) => {
+    setBusca(sugestao);
+    setMostrarSugestoes(false);
+    setSugestoes([]);
+    inputRef.current?.focus();
+  };
+
   const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === "Escape") {
+      setMostrarSugestoes(false);
+      return;
+    }
     if (
       e.key === "Enter" &&
       medicamentosFiltrados.length === 0 &&
       busca.trim()
     ) {
+      setMostrarSugestoes(false);
       buscarComIA();
     }
   };
@@ -405,37 +507,75 @@ const BulasMedicamentos = () => {
             </div>
           </div>
 
-          {/* Campo de Busca */}
+          {/* Campo de Busca com Autocomplete */}
           <div className="relative mb-4">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-5 w-5" />
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-5 w-5 z-10" />
             <Input
+              ref={inputRef}
               placeholder="Buscar por nome, princípio ativo ou classe..."
               value={busca}
-              onChange={(e) => setBusca(e.target.value)}
+              onChange={(e) => {
+                setBusca(e.target.value);
+                if (e.target.value.trim().length >= 3) setMostrarSugestoes(true);
+              }}
+              onFocus={() => {
+                if (sugestoes.length > 0) setMostrarSugestoes(true);
+              }}
               onKeyDown={handleKeyDown}
               className="pl-10 h-12 text-lg"
+              autoComplete="off"
             />
+
+            {/* Dropdown de sugestões */}
+            {mostrarSugestoes && (
+              <div
+                ref={dropdownRef}
+                className="absolute z-50 w-full mt-1 bg-background border border-border rounded-lg shadow-lg overflow-hidden"
+              >
+                {buscandoSugestoes ? (
+                  <div className="px-4 py-3 text-sm text-muted-foreground flex items-center gap-2">
+                    <Loader2 className="h-3 w-3 animate-spin" />
+                    Buscando sugestões...
+                  </div>
+                ) : (
+                  sugestoes.map((s) => (
+                    <button
+                      key={s}
+                      // onMouseDown dispara antes do onBlur do input,
+                      // garantindo que a selecao seja capturada antes do dropdown fechar
+                      onMouseDown={() => selecionarSugestao(s)}
+                      className="w-full text-left px-4 py-3 text-sm hover:bg-muted flex items-center gap-2 border-b border-border last:border-0 transition-colors"
+                    >
+                      <Pill className="h-3 w-3 text-teal flex-shrink-0" />
+                      {s}
+                    </button>
+                  ))
+                )}
+              </div>
+            )}
           </div>
 
-          {/* Botão de busca IA quando não encontra */}
+          {/* Botão de busca IA quando não encontra na base local */}
           {busca.trim() && medicamentosFiltrados.length === 0 && (
             <div className="mb-8 p-4 bg-gradient-to-r from-purple-50 to-blue-50 border border-purple-200 rounded-lg animate-fade-in">
               <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
                 <div className="flex items-center gap-3">
-                  <Sparkles className="h-6 w-6 text-purple-500" />
+                  <Sparkles className="h-6 w-6 text-purple-500 flex-shrink-0" />
                   <div>
                     <p className="font-medium text-foreground">
                       Não encontrado na base local
                     </p>
                     <p className="text-sm text-muted-foreground">
-                      Deseja consultar "{busca}" usando Inteligência Artificial?
+                      {buscandoIA
+                        ? `Consultando a IA sobre "${busca}"...`
+                        : `Deseja consultar "${busca}" usando Inteligência Artificial?`}
                     </p>
                   </div>
                 </div>
                 <Button
                   onClick={buscarComIA}
                   disabled={buscandoIA}
-                  className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 gap-2"
+                  className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 gap-2 shrink-0"
                 >
                   {buscandoIA ? (
                     <>
@@ -450,6 +590,21 @@ const BulasMedicamentos = () => {
                   )}
                 </Button>
               </div>
+
+              {/* Barra de progresso durante consulta IA */}
+              {buscandoIA && (
+                <div className="mt-3">
+                  <div className="w-full bg-purple-100 rounded-full h-1.5 overflow-hidden">
+                    <div
+                      className="bg-gradient-to-r from-purple-500 to-blue-500 h-1.5 rounded-full transition-all duration-1000"
+                      style={{ width: `${Math.min((segundosEspera / 15) * 100, 95)}%` }}
+                    />
+                  </div>
+                  <p className="text-xs text-purple-600 mt-1">
+                    A consulta por IA pode levar até 15 segundos
+                  </p>
+                </div>
+              )}
             </div>
           )}
 
@@ -749,3 +904,4 @@ const BulasMedicamentos = () => {
 };
 
 export default BulasMedicamentos;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
