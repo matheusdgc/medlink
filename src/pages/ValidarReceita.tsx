@@ -1027,4 +1027,59 @@ const ValidarReceita = () => {
                               )
                             }
                             placeholder="Ex: Substituído por formulação em gotas por falta do comprimido em estoque"
-                            cl
+                            className="mt-1 text-sm"
+                          />
+                        </div>
+                      </div>
+                    </Card>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* Observacoes gerais da dispensacao */}
+            <div>
+              <Label htmlFor="obs-dispensacao" className="text-sm font-medium">
+                Observações gerais (opcional)
+              </Label>
+              <Textarea
+                id="obs-dispensacao"
+                value={observacoesDispensacao}
+                onChange={(e) => setObservacoesDispensacao(e.target.value)}
+                placeholder="Orientações adicionais ao paciente ou registro da dispensação"
+                rows={3}
+                className="mt-1"
+              />
+            </div>
+          </div>
+
+          <DialogFooter className="gap-2 pt-2">
+            <Button
+              variant="outline"
+              onClick={() => setShowConfirmDialog(false)}
+              disabled={isDispensando}
+            >
+              Cancelar
+            </Button>
+            <Button
+              onClick={dispensarReceita}
+              disabled={isDispensando}
+              className="bg-teal hover:bg-teal/90 text-white"
+            >
+              {isDispensando ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Dispensando...
+                </>
+              ) : (
+                "Confirmar Dispensação"
+              )}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+    </div>
+  );
+};
+
+export default ValidarReceita;
