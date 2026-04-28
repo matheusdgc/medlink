@@ -84,7 +84,7 @@ const Relatorios = () => {
   const [medicamentos, setMedicamentos] = useState<MedicamentoRanking[]>([]);
 
   // Estado da aba diagnosticos
-  const [diagnosticos, setDiagnósticos] = useState<DiagnosticoRanking[]>([]);
+  const [diagnosticos, setDiagnosticos] = useState<DiagnosticoRanking[]>([]);
   const [loadingDiag, setLoadingDiag] = useState(false);
   const [buscaDiag, setBuscaDiag] = useState("");
   const [mesDiag, setMesDiag] = useState("");
@@ -109,7 +109,7 @@ const Relatorios = () => {
         setReceitasPorMes(mesesRes.data.data);
         setStatusDistribuicao(statusRes.data.data);
         setMedicamentos(medsRes.data.data);
-        setDiagnósticos(diagRes.data.data);
+        setDiagnosticos(diagRes.data.data);
       } catch {
         // Falha silenciosa — pagina continua usavel
       }
@@ -118,7 +118,7 @@ const Relatorios = () => {
   }, []);
 
   // Busca de diagnosticos com filtros
-  const buscarDiagnósticos = useCallback(async () => {
+  const buscarDiagnosticos = useCallback(async () => {
     setLoadingDiag(true);
     try {
       const res = await estatisticasApi.diagnosticos({
@@ -127,7 +127,7 @@ const Relatorios = () => {
         mes: mesDiag ? parseInt(mesDiag) : undefined,
         ano: anoDiag ? parseInt(anoDiag) : undefined,
       });
-      setDiagnósticos(res.data.data);
+      setDiagnosticos(res.data.data);
     } catch {
       // silencioso
     } finally {
@@ -400,10 +400,10 @@ const Relatorios = () => {
                     <div className="md:col-span-2 space-y-1">
                       <Label>Busca por diagnostico</Label>
                       <Input
-                        placeholder="Ex: diabetes, hipertensão..."
+                        placeholder="Ex: diabetes, hipertensao..."
                         value={buscaDiag}
                         onChange={(e) => setBuscaDiag(e.target.value)}
-                        onKeyDown={(e) => e.key === "Enter" && buscarDiagnósticos()}
+                        onKeyDown={(e) => e.key === "Enter" && buscarDiagnosticos()}
                       />
                     </div>
                     <div className="space-y-1">
@@ -434,7 +434,7 @@ const Relatorios = () => {
                     </div>
                   </div>
                   <div className="flex gap-2 mt-4">
-                    <Button onClick={buscarDiagnósticos} disabled={loadingDiag} className="bg-navy hover:bg-navy-light text-white">
+                    <Button onClick={buscarDiagnosticos} disabled={loadingDiag} className="bg-navy hover:bg-navy-light text-white">
                       <Search className="w-4 h-4 mr-2" />
                       {loadingDiag ? "Buscando..." : "Buscar"}
                     </Button>
@@ -450,7 +450,7 @@ const Relatorios = () => {
               <Card>
                 <CardHeader>
                   <CardTitle className="text-base">
-                    Diagnósticos mais frequentes
+                    Diagnosticos mais frequentes
                     {mesDiag && anoDiag && (
                       <span className="ml-2 text-muted-foreground font-normal">
                         — {MESES_OPCOES.find((m) => m.valor === mesDiag)?.label ?? ""} de {anoDiag}
@@ -463,7 +463,7 @@ const Relatorios = () => {
                     <Skeleton />
                   ) : diagnosticos.length === 0 ? (
                     <p className="text-center text-muted-foreground py-8">
-                      Nenhum diagnóstico encontrado para os filtros selecionados.
+                      Nenhum diagnostico encontrado para os filtros selecionados.
                     </p>
                   ) : (
                     <>
@@ -499,4 +499,36 @@ const Relatorios = () => {
                         <table className="w-full text-sm">
                           <thead>
                             <tr className="border-b">
-                              <th className="text-left py-2 f
+                              <th className="text-left py-2 font-semibold text-muted-foreground">#</th>
+                              <th className="text-left py-2 font-semibold text-muted-foreground">Diagnostico</th>
+                              <th className="text-right py-2 font-semibold text-muted-foreground">Receitas</th>
+                              <th className="text-right py-2 font-semibold text-muted-foreground">Pacientes unicos</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {diagnosticos.map((d, i) => (
+                              <tr key={i} className="border-b last:border-0 hover:bg-muted/30">
+                                <td className="py-2 text-muted-foreground">{i + 1}</td>
+                                <td className="py-2 font-medium capitalize">{d.diagnostico}</td>
+                                <td className="py-2 text-right text-teal font-bold">{d.totalReceitas}</td>
+                                <td className="py-2 text-right text-navy font-bold">{d.pacientesUnicos}</td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+                    </>
+                  )}
+                </CardContent>
+              </Card>
+            </TabsContent>
+          </Tabs>
+        </div>
+      </main>
+
+      <Footer />
+    </div>
+  );
+};
+
+export default Relatorios;
