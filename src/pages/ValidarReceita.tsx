@@ -134,7 +134,7 @@ const ValidarReceita = () => {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const Html5Qrcode = (window as any).Html5Qrcode;
       if (!Html5Qrcode) {
-        setErroCamera("Biblioteca de leitura nao carregada. Recarregue a pagina.");
+        setErroCamera("Biblioteca de leitura não carregada. Recarregue a página.");
         setScannerAberto(false);
         return;
       }
@@ -164,7 +164,7 @@ const ValidarReceita = () => {
         .catch((err: unknown) => {
           console.error("[QrScanner] Falha ao iniciar camera:", err);
           setErroCamera(
-            "Nao foi possivel acessar a camera. Verifique as permissoes do navegador."
+            "Não foi possível acessar a câmera. Verifique as permissões do navegador."
           );
           html5QrRef.current = null;
           setScannerAberto(false);
@@ -1027,62 +1027,4 @@ const ValidarReceita = () => {
                               )
                             }
                             placeholder="Ex: Substituído por formulação em gotas por falta do comprimido em estoque"
-                            className="mt-1"
-                            rows={2}
-                          />
-                        </div>
-                      </div>
-                    </Card>
-                  );
-                })}
-              </div>
-            </div>
-
-            {/* Observações Gerais */}
-            <div>
-              <Label htmlFor="obs-dispensacao">
-                Observações gerais (opcional)
-              </Label>
-              <Textarea
-                id="obs-dispensacao"
-                placeholder="Adicione observações gerais sobre a dispensação..."
-                value={observacoesDispensacao}
-                onChange={(e) => setObservacoesDispensacao(e.target.value)}
-                className="mt-1"
-                rows={3}
-              />
-            </div>
-          </div>
-
-          <DialogFooter>
-            <Button
-              variant="outline"
-              onClick={() => setShowConfirmDialog(false)}
-              disabled={isDispensando}
-            >
-              Cancelar
-            </Button>
-            <Button
-              onClick={dispensarReceita}
-              disabled={isDispensando}
-              className="bg-teal hover:bg-teal/90"
-            >
-              {isDispensando ? (
-                <>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Dispensando...
-                </>
-              ) : (
-                "Confirmar Dispensação"
-              )}
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
-
-      <Footer />
-    </div>
-  );
-};
-
-export default ValidarReceita;
+                            cl

@@ -150,7 +150,7 @@ const LoginPaciente = () => {
 
             <div className="space-y-2">
               <Label htmlFor="pin" className="text-muted-foreground">
-                PIN de Acesso (6 digitos)
+                PIN de Acesso (6 dígitos)
               </Label>
               <Input
                 id="pin"
@@ -163,7 +163,7 @@ const LoginPaciente = () => {
                 className="h-14 text-lg text-center tracking-[0.5em] border-2 border-border focus:border-teal rounded-xl"
               />
               <p className="text-xs text-muted-foreground">
-                Informe o PIN apenas se voce cadastrou um. Caso contrario, deixe em branco.
+                Informe o PIN apenas se você cadastrou um. Caso contrário, deixe em branco.
               </p>
             </div>
 

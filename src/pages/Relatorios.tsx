@@ -30,7 +30,7 @@ const MESES_PT: Record<string, string> = {
 
 const MESES_OPCOES = [
   { valor: "1", label: "Janeiro" }, { valor: "2", label: "Fevereiro" },
-  { valor: "3", label: "Marco" }, { valor: "4", label: "Abril" },
+  { valor: "3", label: "Março" }, { valor: "4", label: "Abril" },
   { valor: "5", label: "Maio" }, { valor: "6", label: "Junho" },
   { valor: "7", label: "Julho" }, { valor: "8", label: "Agosto" },
   { valor: "9", label: "Setembro" }, { valor: "10", label: "Outubro" },
@@ -84,7 +84,7 @@ const Relatorios = () => {
   const [medicamentos, setMedicamentos] = useState<MedicamentoRanking[]>([]);
 
   // Estado da aba diagnosticos
-  const [diagnosticos, setDiagnosticos] = useState<DiagnosticoRanking[]>([]);
+  const [diagnosticos, setDiagnósticos] = useState<DiagnosticoRanking[]>([]);
   const [loadingDiag, setLoadingDiag] = useState(false);
   const [buscaDiag, setBuscaDiag] = useState("");
   const [mesDiag, setMesDiag] = useState("");
@@ -109,7 +109,7 @@ const Relatorios = () => {
         setReceitasPorMes(mesesRes.data.data);
         setStatusDistribuicao(statusRes.data.data);
         setMedicamentos(medsRes.data.data);
-        setDiagnosticos(diagRes.data.data);
+        setDiagnósticos(diagRes.data.data);
       } catch {
         // Falha silenciosa — pagina continua usavel
       }
@@ -118,7 +118,7 @@ const Relatorios = () => {
   }, []);
 
   // Busca de diagnosticos com filtros
-  const buscarDiagnosticos = useCallback(async () => {
+  const buscarDiagnósticos = useCallback(async () => {
     setLoadingDiag(true);
     try {
       const res = await estatisticasApi.diagnosticos({
@@ -127,7 +127,7 @@ const Relatorios = () => {
         mes: mesDiag ? parseInt(mesDiag) : undefined,
         ano: anoDiag ? parseInt(anoDiag) : undefined,
       });
-      setDiagnosticos(res.data.data);
+      setDiagnósticos(res.data.data);
     } catch {
       // silencioso
     } finally {
@@ -263,7 +263,7 @@ const Relatorios = () => {
               {dadosMes.length > 0 && (
                 <Card>
                   <CardHeader>
-                    <CardTitle className="text-base">Receitas por mes (ultimos 6 meses)</CardTitle>
+                    <CardTitle className="text-base">Receitas por mês (últimos 6 meses)</CardTitle>
                   </CardHeader>
                   <CardContent>
                     <ResponsiveContainer width="100%" height={220}>
@@ -320,12 +320,12 @@ const Relatorios = () => {
           {/* ====== ABAS DE ANALISE DETALHADA ====== */}
           {/*
             Removida a aba "Medicos" conforme solicitado.
-            As duas abas restantes sao: Medicamentos e Diagnosticos.
+            As duas abas restantes sao: Medicamentos e Diagnósticos.
           */}
           <Tabs defaultValue="medicamentos" className="animate-fade-in">
             <TabsList className="grid w-full grid-cols-2">
               <TabsTrigger value="medicamentos">Medicamentos</TabsTrigger>
-              <TabsTrigger value="diagnosticos">Diagnosticos</TabsTrigger>
+              <TabsTrigger value="diagnosticos">Diagnósticos</TabsTrigger>
             </TabsList>
 
             {/* ========== ABA: MEDICAMENTOS ========== */}
@@ -393,17 +393,17 @@ const Relatorios = () => {
               {/* Filtros de busca e periodo */}
               <Card>
                 <CardHeader>
-                  <CardTitle className="text-base">Filtrar diagnosticos</CardTitle>
+                  <CardTitle className="text-base">Filtrar diagnósticos</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
                     <div className="md:col-span-2 space-y-1">
                       <Label>Busca por diagnostico</Label>
                       <Input
-                        placeholder="Ex: diabetes, hipertensao..."
+                        placeholder="Ex: diabetes, hipertensão..."
                         value={buscaDiag}
                         onChange={(e) => setBuscaDiag(e.target.value)}
-                        onKeyDown={(e) => e.key === "Enter" && buscarDiagnosticos()}
+                        onKeyDown={(e) => e.key === "Enter" && buscarDiagnósticos()}
                       />
                     </div>
                     <div className="space-y-1">
@@ -434,7 +434,7 @@ const Relatorios = () => {
                     </div>
                   </div>
                   <div className="flex gap-2 mt-4">
-                    <Button onClick={buscarDiagnosticos} disabled={loadingDiag} className="bg-navy hover:bg-navy-light text-white">
+                    <Button onClick={buscarDiagnósticos} disabled={loadingDiag} className="bg-navy hover:bg-navy-light text-white">
                       <Search className="w-4 h-4 mr-2" />
                       {loadingDiag ? "Buscando..." : "Buscar"}
                     </Button>
@@ -450,7 +450,7 @@ const Relatorios = () => {
               <Card>
                 <CardHeader>
                   <CardTitle className="text-base">
-                    Diagnosticos mais frequentes
+                    Diagnósticos mais frequentes
                     {mesDiag && anoDiag && (
                       <span className="ml-2 text-muted-foreground font-normal">
                         — {MESES_OPCOES.find((m) => m.valor === mesDiag)?.label ?? ""} de {anoDiag}
@@ -463,7 +463,7 @@ const Relatorios = () => {
                     <Skeleton />
                   ) : diagnosticos.length === 0 ? (
                     <p className="text-center text-muted-foreground py-8">
-                      Nenhum diagnostico encontrado para os filtros selecionados.
+                      Nenhum diagnóstico encontrado para os filtros selecionados.
                     </p>
                   ) : (
                     <>
@@ -499,36 +499,4 @@ const Relatorios = () => {
                         <table className="w-full text-sm">
                           <thead>
                             <tr className="border-b">
-                              <th className="text-left py-2 font-semibold text-muted-foreground">#</th>
-                              <th className="text-left py-2 font-semibold text-muted-foreground">Diagnostico</th>
-                              <th className="text-right py-2 font-semibold text-muted-foreground">Receitas</th>
-                              <th className="text-right py-2 font-semibold text-muted-foreground">Pacientes unicos</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {diagnosticos.map((d, i) => (
-                              <tr key={i} className="border-b last:border-0 hover:bg-muted/30">
-                                <td className="py-2 text-muted-foreground">{i + 1}</td>
-                                <td className="py-2 font-medium capitalize">{d.diagnostico}</td>
-                                <td className="py-2 text-right text-teal font-bold">{d.totalReceitas}</td>
-                                <td className="py-2 text-right text-navy font-bold">{d.pacientesUnicos}</td>
-                              </tr>
-                            ))}
-                          </tbody>
-                        </table>
-                      </div>
-                    </>
-                  )}
-                </CardContent>
-              </Card>
-            </TabsContent>
-          </Tabs>
-        </div>
-      </main>
-
-      <Footer />
-    </div>
-  );
-};
-
-export default Relatorios;
+                              <th className="text-left py-2 f

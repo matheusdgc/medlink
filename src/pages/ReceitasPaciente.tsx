@@ -202,7 +202,7 @@ const ReceitasPaciente = () => {
               Minhas Receitas
             </h1>
             <p className="text-sm text-muted-foreground mt-0.5">
-              Consulte suas receitas medicas emitidas
+              Consulte suas receitas médicas emitidas
             </p>
           </div>
         </div>

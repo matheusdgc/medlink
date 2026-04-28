@@ -128,7 +128,7 @@ const GerenciarReceitas = () => {
               </Badge>
             </div>
             <p className="text-muted-foreground text-sm mt-1">
-              Remocao permanente de receitas do banco de dados
+              Remoção permanente de receitas do banco de dados
             </p>
           </div>
         </div>
@@ -137,12 +137,12 @@ const GerenciarReceitas = () => {
         <div className="flex items-start gap-3 p-4 rounded-xl border border-red-200 bg-red-50">
           <AlertTriangle className="w-5 h-5 text-red-500 flex-shrink-0 mt-0.5" />
           <div>
-            <p className="text-sm font-medium text-red-700">Atencao: acao irreversivel</p>
+            <p className="text-sm font-medium text-red-700">Atenção: ação irreversível</p>
             <p className="text-sm text-red-600 mt-0.5">
               Apagar uma receita remove permanentemente todos os dados relacionados
-              (itens, dispensacao). Esta acao nao pode ser desfeita.
-              Para apenas suspender uma receita, use a opcao "Cancelar" disponivel
-              para medicos.
+              (itens, dispensação). Esta ação não pode ser desfeita.
+              Para apenas suspender uma receita, use a opção "Cancelar" disponível
+              para médicos.
             </p>
           </div>
         </div>
@@ -253,7 +253,7 @@ const GerenciarReceitas = () => {
               Anterior
             </Button>
             <span className="text-sm text-muted-foreground">
-              Pagina {paginaAtual} de {totalPaginas}
+              Página {paginaAtual} de {totalPaginas}
             </span>
             <Button
               variant="outline"
@@ -261,7 +261,7 @@ const GerenciarReceitas = () => {
               disabled={paginaAtual === totalPaginas}
               onClick={() => setPaginaAtual((p) => p + 1)}
             >
-              Proxima
+              Próxima
               <ChevronRight className="w-4 h-4" />
             </Button>
           </div>
@@ -284,7 +284,7 @@ const GerenciarReceitas = () => {
             </AlertDialogTitle>
             <AlertDialogDescription asChild>
               <div className="space-y-2">
-                <p>Esta acao e irreversivel. Os seguintes dados serao removidos:</p>
+                <p>Esta ação é irreversível. Os seguintes dados serão removidos:</p>
                 {receitaParaApagar && (
                   <div className="rounded-lg bg-muted p-3 text-sm space-y-1">
                     <p><strong>Paciente:</strong> {receitaParaApagar.paciente.usuario.nome}</p>
@@ -297,7 +297,7 @@ const GerenciarReceitas = () => {
                   </div>
                 )}
                 <p className="text-red-600 font-medium">
-                  A dispensacao associada (se houver) tambem sera removida.
+                  A dispensação associada (se houver) também será removida.
                 </p>
               </div>
             </AlertDialogDescription>

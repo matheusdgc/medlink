@@ -179,7 +179,7 @@ const HistoricoDispensacoes = () => {
       <main className="flex-1 container mx-auto px-4 py-8">
         <div className="max-w-6xl mx-auto">
           <div className="flex items-center gap-4 mb-8">
-            <BackButton to="/farmacia" label="Voltar ao painel da farmacia" />
+            <BackButton to="/farmacia" label="Voltar ao painel da farmácia" />
             <div>
               <h1 className="font-display text-3xl font-bold text-foreground">
                 Histórico de Dispensações

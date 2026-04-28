@@ -1,5 +1,5 @@
 import { MedLinkLogo } from "@/components/MedLinkLogo";
-import { Mail, Phone } from "lucide-react";
+import { Mail, Phone, UserCircle } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 
@@ -126,10 +126,19 @@ export const Footer = () => {
         </div>
 
         {/* Bottom Bar */}
-        <div className="mt-12 pt-6 border-t border-white/10 text-center">
+        <div className="mt-12 pt-6 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-3">
           <p className="text-sm text-white/50">
             Feito por © MedLink 2026. Todos os Direitos Reservados.
           </p>
+          {!user && (
+            <Link
+              to="/login/paciente"
+              className="flex items-center gap-1.5 text-xs text-white/30 hover:text-white/60 transition-colors"
+            >
+              <UserCircle className="h-3.5 w-3.5" />
+              Acesso do paciente
+            </Link>
+          )}
         </div>
       </div>
     </footer>

@@ -132,7 +132,7 @@ const DashboardFarmacia = () => {
           {/* ====== CABECALHO COM SAUDACAO ====== */}
           <div className="animate-fade-in text-center">
             <h1 className="font-display text-3xl font-bold text-foreground">
-              Ola, {nomeFantasia}
+              Olá, {nomeFantasia}
             </h1>
             <p className="text-muted-foreground mt-1">
               O que deseja fazer hoje?
@@ -142,13 +142,13 @@ const DashboardFarmacia = () => {
           {/* ====== ACOES RAPIDAS (SECAO PRINCIPAL) ====== */}
           <section className="animate-fade-in">
             <h2 className="font-display text-lg font-semibold text-foreground mb-6 text-center">
-              Acoes rapidas
+              Ações rápidas
             </h2>
             <div className="flex flex-wrap justify-center gap-6 max-w-4xl mx-auto">
               <ActionCard
                 icon={QrCode}
                 title="Validar Receita"
-                description="Valide e dispense receitas medicas"
+                description="Valide e dispense receitas médicas"
                 onClick={() => navigate("/farmacia/validar")}
                 className="w-full sm:w-64 animate-fade-in"
               />
@@ -191,7 +191,7 @@ const DashboardFarmacia = () => {
           */}
           <section>
             <h2 className="font-display text-lg font-semibold text-foreground mb-6">
-              Visao geral do sistema
+              Visão geral do sistema
             </h2>
 
             {/* Cards de dispensacoes */}
@@ -269,7 +269,7 @@ const DashboardFarmacia = () => {
                   <Card>
                     <CardHeader>
                       <CardTitle className="text-base font-semibold">
-                        Distribuicao de receitas por status
+                        Distribuição de receitas por status
                       </CardTitle>
                     </CardHeader>
                     <CardContent>

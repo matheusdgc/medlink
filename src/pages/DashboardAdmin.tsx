@@ -76,7 +76,7 @@ const DashboardAdmin = () => {
             </span>
           </div>
           <h1 className="font-display text-4xl font-bold text-foreground">
-            Ola, {nomeLogado}
+            Olá, {nomeLogado}
           </h1>
           <p className="text-muted-foreground mt-2">
             Acesso completo ao sistema MedLink
@@ -87,7 +87,7 @@ const DashboardAdmin = () => {
         {!carregando && resumo && (
           <div className="animate-fade-in">
             <h2 className="text-xl font-semibold text-foreground mb-4 text-center">
-              Visao Geral do Sistema
+              Visão Geral do Sistema
             </h2>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               <ResumoCard
@@ -116,22 +116,22 @@ const DashboardAdmin = () => {
           </div>
         )}
 
-        {/* Acoes Rapidas */}
+        {/* Ações Rápidas */}
         <div className="animate-fade-in">
           <h2 className="text-xl font-semibold text-foreground mb-6 text-center">
-            Acoes Rapidas
+            Ações Rápidas
           </h2>
 
           {/* Secao: Funcionalidades de Medico */}
           <div className="mb-8">
             <h3 className="text-sm font-medium text-muted-foreground uppercase tracking-wider mb-4 text-center">
-              Modulo Medico
+              Módulo Médico
             </h3>
             <div className="flex flex-wrap justify-center gap-6">
               <ActionCard
                 className="w-full sm:w-64 animate-fade-in"
                 title="Nova Receita"
-                description="Criar receita medica para um paciente"
+                description="Criar receita médica para um paciente"
                 icon={FileText}
                 onClick={() => navigate("/medico/nova-receita")}
               />
@@ -145,7 +145,7 @@ const DashboardAdmin = () => {
               <ActionCard
                 className="w-full sm:w-64 animate-fade-in"
                 title="Bulas de Medicamentos"
-                description="Consultar bulas e informacoes farmacologicas"
+                description="Consultar bulas e informações farmacológicas"
                 icon={Pill}
                 onClick={() => navigate("/medico/bulas")}
               />
@@ -155,7 +155,7 @@ const DashboardAdmin = () => {
           {/* Secao: Funcionalidades de Farmacia */}
           <div className="mb-8">
             <h3 className="text-sm font-medium text-muted-foreground uppercase tracking-wider mb-4 text-center">
-              Modulo Farmacia
+              Módulo Farmácia
             </h3>
             <div className="flex flex-wrap justify-center gap-6">
               <ActionCard
@@ -178,7 +178,7 @@ const DashboardAdmin = () => {
           {/* Secao: Funcionalidades de Paciente */}
           <div className="mb-8">
             <h3 className="text-sm font-medium text-muted-foreground uppercase tracking-wider mb-4 text-center">
-              Modulo Paciente
+              Módulo Paciente
             </h3>
             <div className="flex flex-wrap justify-center gap-6">
               <ActionCard
@@ -191,7 +191,7 @@ const DashboardAdmin = () => {
               <ActionCard
                 className="w-full sm:w-64 animate-fade-in"
                 title="Unidades de Saude"
-                description="Gerenciar farmacias e postos de saude"
+                description="Gerenciar farmácias e postos de saúde"
                 icon={MapPin}
                 onClick={() => navigate("/admin/unidades-saude")}
               />
@@ -201,7 +201,7 @@ const DashboardAdmin = () => {
           {/* Secao: Exclusivo Admin */}
           <div>
             <h3 className="text-sm font-medium text-red-500 uppercase tracking-wider mb-4 text-center">
-              Administracao — Acesso Restrito
+              Administração — Acesso Restrito
             </h3>
             <div className="flex flex-wrap justify-center gap-6">
               <ActionCard
@@ -214,7 +214,7 @@ const DashboardAdmin = () => {
               <ActionCard
                 className="w-full sm:w-64 animate-fade-in"
                 title="Relatorios"
-                description="Estatisticas, graficos e exportacao de dados do sistema"
+                description="Estatísticas, gráficos e exportação de dados do sistema"
                 icon={BarChart2}
                 onClick={() => navigate("/admin/relatorios")}
               />

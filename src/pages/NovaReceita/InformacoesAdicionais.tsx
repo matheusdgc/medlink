@@ -34,13 +34,16 @@ export function InformacoesAdicionais({
           <Input
             type="number"
             min={1}
-            max={365}
+            max={30}
             value={validadeDias}
-            onChange={(e) => onValidadeDiasChange(parseInt(e.target.value) || 30)}
+            onChange={(e) => {
+              const v = parseInt(e.target.value) || 30;
+              onValidadeDiasChange(Math.min(30, Math.max(1, v)));
+            }}
             className="max-w-[150px]"
           />
           <p className="text-sm text-muted-foreground mt-1">
-            A receita será válida até {formatarDataBR(dataValidade)}
+            A receita será válida até {formatarDataBR(dataValidade)} (máximo 30 dias)
           </p>
         </div>
 

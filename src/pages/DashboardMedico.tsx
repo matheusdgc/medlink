@@ -112,7 +112,7 @@ const DashboardMedico = () => {
           {/* ====== CABECALHO COM SAUDACAO ====== */}
           <div className="animate-fade-in text-center">
             <h1 className="font-display text-3xl font-bold text-foreground">
-              Ola, {nomeLogado}
+              Olá, {nomeLogado}
             </h1>
             <p className="text-muted-foreground mt-1">
               O que deseja fazer hoje?
@@ -240,7 +240,7 @@ const DashboardMedico = () => {
                 <Card>
                   <CardHeader>
                     <CardTitle className="text-base font-semibold">
-                      Receitas criadas (ultimos 6 meses)
+                      Receitas criadas (últimos 6 meses)
                     </CardTitle>
                   </CardHeader>
                   <CardContent>
