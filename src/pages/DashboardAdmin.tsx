@@ -101,13 +101,13 @@ const DashboardAdmin = () => {
                 icon={Users}
               />
               <ResumoCard
-                titulo="Medicos"
+                titulo="Médicos"
                 valor={resumo.totalMedicos}
                 icon={UserCog}
                 cor="text-blue-600"
               />
               <ResumoCard
-                titulo="Farmacias"
+                titulo="Farmácias"
                 valor={resumo.totalFarmacias}
                 icon={Pill}
                 cor="text-purple-600"
@@ -138,7 +138,7 @@ const DashboardAdmin = () => {
               <ActionCard
                 className="w-full sm:w-64 animate-fade-in"
                 title="Ver Pacientes"
-                description="Consultar dados e historico dos pacientes"
+                description="Consultar dados e histórico dos pacientes"
                 icon={Users}
                 onClick={() => navigate("/medico/pacientes")}
               />
@@ -167,7 +167,7 @@ const DashboardAdmin = () => {
               />
               <ActionCard
                 className="w-full sm:w-64 animate-fade-in"
-                title="Historico de Dispensacoes"
+                title="Histórico de Dispensações"
                 description="Ver registros de medicamentos entregues"
                 icon={ClipboardList}
                 onClick={() => navigate("/farmacia/historico")}
@@ -190,7 +190,7 @@ const DashboardAdmin = () => {
               />
               <ActionCard
                 className="w-full sm:w-64 animate-fade-in"
-                title="Unidades de Saude"
+                title="Unidades de Saúde"
                 description="Gerenciar farmácias e postos de saúde"
                 icon={MapPin}
                 onClick={() => navigate("/admin/unidades-saude")}
@@ -213,7 +213,7 @@ const DashboardAdmin = () => {
               />
               <ActionCard
                 className="w-full sm:w-64 animate-fade-in"
-                title="Relatorios"
+                title="Relatórios"
                 description="Estatísticas, gráficos e exportação de dados do sistema"
                 icon={BarChart2}
                 onClick={() => navigate("/admin/relatorios")}

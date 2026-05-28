@@ -120,7 +120,7 @@ const DashboardFarmacia = () => {
     cor: CORES_STATUS[s.status] ?? "#94A3B8",
   }));
 
-  const nomeFantasia = user?.nome ?? "Farmacia";
+  const nomeFantasia = user?.nome ?? "Farmácia";
 
   return (
     <div className="min-h-screen flex flex-col bg-background">
@@ -154,15 +154,15 @@ const DashboardFarmacia = () => {
               />
               <ActionCard
                 icon={History}
-                title="Historico"
-                description="Ver dispensacoes realizadas"
+                title="Histórico"
+                description="Ver dispensações realizadas"
                 onClick={() => navigate("/farmacia/historico")}
                 className="w-full sm:w-64 animate-fade-in [animation-delay:80ms]"
               />
               <ActionCard
                 icon={Users}
                 title="Ver Paciente"
-                description="Historico medico do paciente"
+                description="Histórico médico do paciente"
                 onClick={() => navigate("/farmacia/pacientes")}
                 className="w-full sm:w-64 animate-fade-in [animation-delay:160ms]"
               />
@@ -175,8 +175,8 @@ const DashboardFarmacia = () => {
               />
               <ActionCard
                 icon={BarChart2}
-                title="Relatorios"
-                description="Medicamentos, diagnosticos e graficos de uso"
+                title="Relatórios"
+                description="Medicamentos, diagnósticos e gráficos de uso"
                 onClick={() => navigate("/farmacia/relatorios")}
                 className="w-full sm:w-64 animate-fade-in [animation-delay:320ms]"
               />
@@ -215,16 +215,16 @@ const DashboardFarmacia = () => {
                   cor="text-teal"
                 />
                 <StatCard
-                  titulo="Dispensadas no mes"
+                  titulo="Dispensadas no mês"
                   valor={dispensacoes.mes}
-                  descricao="mes atual"
+                  descricao="mês atual"
                   icon={TrendingUp}
                   cor="text-teal"
                 />
                 <StatCard
                   titulo="Total dispensadas"
                   valor={dispensacoes.total}
-                  descricao="desde o inicio"
+                  descricao="desde o início"
                   icon={Activity}
                   cor="text-navy"
                 />

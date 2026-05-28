@@ -434,7 +434,7 @@ const ValidarReceita = () => {
         <div className="max-w-4xl mx-auto">
           {/* Header */}
           <div className="flex items-center gap-4 mb-8">
-            <BackButton to="/farmacia" label="Voltar ao painel da farmacia" />
+            <BackButton to="/farmacia" label="Voltar ao painel da farmácia" />
             <div>
               <h1 className="font-display text-2xl font-bold text-foreground">Validar Receita</h1>
               <p className="text-muted-foreground mt-1">
@@ -486,7 +486,7 @@ const ValidarReceita = () => {
                         onClick={() => setScannerAberto(true)}
                         disabled={isLoading}
                         className="h-12 px-4 border-2 border-teal text-teal hover:bg-teal hover:text-white"
-                        title="Escanear QR Code com a camera"
+                        title="Escanear QR Code com a câmera"
                       >
                         <Camera className="w-5 h-5" />
                       </Button>

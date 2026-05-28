@@ -102,7 +102,7 @@ export default function NovaReceita() {
         <div className="max-w-4xl mx-auto">
           {/* Header */}
           <div className="flex items-center gap-4 mb-8">
-            <BackButton to="/medico" label="Voltar ao painel do medico" />
+            <BackButton to="/medico" label="Voltar ao painel do médico" />
             <div>
               <h1 className="text-3xl font-bold text-foreground">Nova Receita</h1>
               <p className="text-muted-foreground">

@@ -196,7 +196,7 @@ const ReceitasPaciente = () => {
       <main className="flex-1 container mx-auto px-4 py-6">
         {/* Header */}
         <div className="flex items-center gap-4 mb-6">
-          <BackButton to="/" label="Voltar ao inicio" />
+          <BackButton to="/" label="Voltar ao início" />
           <div>
             <h1 className="text-2xl font-display font-bold text-navy">
               Minhas Receitas

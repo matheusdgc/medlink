@@ -89,7 +89,7 @@ export function exportarReceitaPdf(
   const { jsPDF } = (window as any).jspdf ?? {};
   if (!jsPDF) {
     alert(
-      "Biblioteca PDF nao carregada. Verifique sua conexao e recarregue a pagina."
+      "Biblioteca PDF não carregada. Verifique sua conexão e recarregue a página."
     );
     return;
   }
@@ -213,7 +213,7 @@ export function exportarReceitaPdf(
   Y += 22;
 
   // ====== MEDICO PRESCRITOR ======
-  tituloSecao("Medico Prescritor");
+  tituloSecao("Médico Prescritor");
   doc.setFontSize(11);
   doc.setFont("helvetica", "bold");
   doc.setTextColor(20, 20, 20);
@@ -237,7 +237,7 @@ export function exportarReceitaPdf(
 
   // ====== DIAGNOSTICO (opcional) ======
   if (receita.diagnostico) {
-    tituloSecao("Diagnostico / Indicacao");
+    tituloSecao("Diagnóstico / Indicação");
     doc.setFontSize(9.5);
     doc.setFont("helvetica", "normal");
     doc.setTextColor(20, 20, 20);
@@ -332,7 +332,7 @@ export function exportarReceitaPdf(
     if (item.principioAtivo) {
       doc.setFontSize(8);
       doc.setTextColor(150, 150, 150);
-      doc.text(`Principio ativo: ${item.principioAtivo}`, cx, cy);
+      doc.text(`Princípio ativo: ${item.principioAtivo}`, cx, cy);
       cy += 11;
     }
 
@@ -349,7 +349,7 @@ export function exportarReceitaPdf(
   // ====== OBSERVACOES DO MEDICO (opcional) ======
   if (receita.observacoes) {
     garantirEspaco(50);
-    tituloSecao("Observacoes do Medico");
+    tituloSecao("Observações do Médico");
     doc.setFontSize(9);
     doc.setFont("helvetica", "normal");
     doc.setTextColor(20, 20, 20);
@@ -388,7 +388,7 @@ export function exportarReceitaPdf(
   doc.setFontSize(7);
   doc.setFont("helvetica", "normal");
   doc.setTextColor(150, 150, 150);
-  doc.text("Assinatura e identificacao do Medico Prescritor", M + SIG_W / 2, Y + SIG_H - 7, {
+  doc.text("Assinatura e identificação do Médico Prescritor", M + SIG_W / 2, Y + SIG_H - 7, {
     align: "center",
   });
   doc.text("Carimbo", M + SIG_W + 10 + STAMP_W / 2, Y + SIG_H - 7, {
@@ -413,7 +413,7 @@ export function exportarReceitaPdf(
   doc.setFontSize(7);
   doc.setFont("helvetica", "bold");
   doc.setTextColor(...TEAL);
-  doc.text("CODIGO DE VERIFICACAO", M + 12, Y + 15);
+  doc.text("CÓDIGO DE VERIFICAÇÃO", M + 12, Y + 15);
 
   doc.setFontSize(9.5);
   doc.setFont("courier", "bold");
@@ -424,7 +424,7 @@ export function exportarReceitaPdf(
   doc.setFont("helvetica", "italic");
   doc.setTextColor(...GRAY);
   doc.text(
-    "Apresente na farmacia ou peca para escanear o QR Code no cabecalho.",
+    "Apresente na farmácia ou peça para escanear o QR Code no cabeçalho.",
     M + 12,
     Y + 43
   );
@@ -439,7 +439,7 @@ export function exportarReceitaPdf(
     doc.setFont("helvetica", "normal");
     doc.setTextColor(...HEADER_SUBTITLE);
     doc.text(
-      `MedLink — Documento gerado em ${new Date().toLocaleString("pt-BR")} — Pagina ${p} de ${totalPgs}`,
+      `MedLink — Documento gerado em ${new Date().toLocaleString("pt-BR")} — Página ${p} de ${totalPgs}`,
       PAGE_W / 2,
       PAGE_H - 8,
       { align: "center" }

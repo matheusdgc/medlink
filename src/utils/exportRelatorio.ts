@@ -65,7 +65,7 @@ export function exportarPdf(dados: DadosRelatorio): void {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const { jsPDF } = (window as any).jspdf;
   if (!jsPDF) {
-    alert("Biblioteca PDF nao carregada. Verifique sua conexao e recarregue a pagina.");
+    alert("Biblioteca PDF não carregada. Verifique sua conexão e recarregue a página.");
     return;
   }
 
@@ -111,7 +111,7 @@ export function exportarPdf(dados: DadosRelatorio): void {
   doc.setFontSize(10);
   doc.setFont("helvetica", "normal");
   doc.setTextColor(...COR_CINZA as [number, number, number]);
-  doc.text("Sistema de Receitas Medicas Digitais", MARGEM, cursorY + 16);
+  doc.text("Sistema de Receitas Médicas Digitais", MARGEM, cursorY + 16);
 
   // Data de geracao alinhada a direita
   doc.text(`Gerado em: ${dataHoraAtual()}`, LARGURA - MARGEM, cursorY + 8, { align: "right" });
@@ -122,14 +122,14 @@ export function exportarPdf(dados: DadosRelatorio): void {
   doc.setFont("helvetica", "bold");
   doc.setTextColor(0, 0, 0);
   const tituloRel = dados.filtroMes && dados.filtroAno
-    ? `Relatorio de ${dados.filtroMes} de ${dados.filtroAno}`
-    : "Relatorio Geral do Sistema";
+    ? `Relatório de ${dados.filtroMes} de ${dados.filtroAno}`
+    : "Relatório Geral do Sistema";
   doc.text(tituloRel, MARGEM, cursorY);
   cursorY += 30;
 
   // ====== VISAO GERAL ======
   if (dados.visaoGeral) {
-    tituloSecao("Visao Geral");
+    tituloSecao("Visão Geral");
     const vg = dados.visaoGeral;
     // autoTable recebe "body" como array de arrays e "head" como headers
     (doc as any).autoTable({
@@ -138,8 +138,8 @@ export function exportarPdf(dados: DadosRelatorio): void {
       body: [
         ["Total de Receitas", vg.totalReceitas],
         ["Total de Pacientes", vg.totalPacientes],
-        ["Medicos Cadastrados", vg.totalMedicos],
-        ["Total de Dispensacoes", vg.totalDispensacoes],
+        ["Médicos Cadastrados", vg.totalMedicos],
+        ["Total de Dispensações", vg.totalDispensacoes],
         ["Receitas Ativas", vg.receitasAtivas],
         ["Receitas Dispensadas", vg.receitasDispensadas],
         ["Receitas Vencidas", vg.receitasVencidas],
@@ -157,7 +157,7 @@ export function exportarPdf(dados: DadosRelatorio): void {
   // ====== STATUS ======
   if (dados.statusDistribuicao.length > 0) {
     checarPagina(80);
-    tituloSecao("Distribuicao por Status");
+    tituloSecao("Distribuição por Status");
     (doc as any).autoTable({
       startY: cursorY,
       head: [["Status", "Quantidade"]],
@@ -197,10 +197,10 @@ export function exportarPdf(dados: DadosRelatorio): void {
   // ====== DIAGNOSTICOS ======
   if (dados.diagnosticos.length > 0) {
     checarPagina(80);
-    tituloSecao("Diagnosticos Mais Frequentes");
+    tituloSecao("Diagnósticos Mais Frequentes");
     (doc as any).autoTable({
       startY: cursorY,
-      head: [["#", "Diagnostico", "Receitas", "Pacientes Unicos"]],
+      head: [["#", "Diagnóstico", "Receitas", "Pacientes Únicos"]],
       body: dados.diagnosticos.map((d, i) => [
         i + 1,
         d.diagnostico,
@@ -226,7 +226,7 @@ export function exportarPdf(dados: DadosRelatorio): void {
     doc.setFontSize(8);
     doc.setTextColor(...COR_CINZA as [number, number, number]);
     doc.text(
-      `MedLink — Relatorio gerado em ${dataHoraAtual()} — Pagina ${i} de ${totalPaginas}`,
+      `MedLink — Relatório gerado em ${dataHoraAtual()} — Página ${i} de ${totalPaginas}`,
       LARGURA / 2,
       830,
       { align: "center" }
@@ -263,7 +263,7 @@ export function exportarExcel(dados: DadosRelatorio): void {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const XLSX = (window as any).XLSX;
   if (!XLSX) {
-    alert("Biblioteca Excel nao carregada. Verifique sua conexao e recarregue a pagina.");
+    alert("Biblioteca Excel não carregada. Verifique sua conexão e recarregue a página.");
     return;
   }
 
@@ -273,15 +273,15 @@ export function exportarExcel(dados: DadosRelatorio): void {
   if (dados.visaoGeral) {
     const vg = dados.visaoGeral;
     const abaVG = XLSX.utils.aoa_to_sheet([
-      ["MedLink — Relatorio Geral"],
+      ["MedLink — Relatório Geral"],
       [`Gerado em: ${dataHoraAtual()}`],
       [],
-      ["VISAO GERAL DO SISTEMA"],
+      ["VISÃO GERAL DO SISTEMA"],
       ["Indicador", "Valor"],
       ["Total de Receitas", vg.totalReceitas],
       ["Total de Pacientes", vg.totalPacientes],
-      ["Medicos Cadastrados", vg.totalMedicos],
-      ["Total de Dispensacoes", vg.totalDispensacoes],
+      ["Médicos Cadastrados", vg.totalMedicos],
+      ["Total de Dispensações", vg.totalDispensacoes],
       [],
       ["STATUS DAS RECEITAS"],
       ["Status", "Quantidade"],
@@ -292,7 +292,7 @@ export function exportarExcel(dados: DadosRelatorio): void {
     ]);
     // Define largura das colunas (em caracteres)
     abaVG["!cols"] = [{ wch: 30 }, { wch: 15 }];
-    XLSX.utils.book_append_sheet(wb, abaVG, "Visao Geral");
+    XLSX.utils.book_append_sheet(wb, abaVG, "Visão Geral");
   }
 
   // ------ ABA: Medicamentos ------
@@ -311,13 +311,13 @@ export function exportarExcel(dados: DadosRelatorio): void {
   // ------ ABA: Diagnosticos ------
   if (dados.diagnosticos.length > 0) {
     const tituloDiag = dados.filtroMes && dados.filtroAno
-      ? `DIAGNOSTICOS — ${dados.filtroMes.toUpperCase()} DE ${dados.filtroAno}`
-      : "DIAGNOSTICOS MAIS FREQUENTES";
+      ? `DIAGNÓSTICOS — ${dados.filtroMes.toUpperCase()} DE ${dados.filtroAno}`
+      : "DIAGNÓSTICOS MAIS FREQUENTES";
     const abaDiag = XLSX.utils.aoa_to_sheet([
       [tituloDiag],
       [`Gerado em: ${dataHoraAtual()}`],
       [],
-      ["#", "Diagnostico", "Total de Receitas", "Pacientes Unicos"],
+      ["#", "Diagnóstico", "Total de Receitas", "Pacientes Únicos"],
       ...dados.diagnosticos.map((d, i) => [
         i + 1,
         d.diagnostico,
@@ -326,7 +326,7 @@ export function exportarExcel(dados: DadosRelatorio): void {
       ]),
     ]);
     abaDiag["!cols"] = [{ wch: 6 }, { wch: 35 }, { wch: 18 }, { wch: 18 }];
-    XLSX.utils.book_append_sheet(wb, abaDiag, "Diagnosticos");
+    XLSX.utils.book_append_sheet(wb, abaDiag, "Diagnósticos");
   }
 
   // Dispara o download do .xlsx

@@ -253,7 +253,7 @@ const AtualizarReceita = () => {
         <div className="max-w-6xl mx-auto">
           {/* Header */}
           <div className="flex items-center gap-4 mb-8">
-            <BackButton to="/medico" label="Voltar ao painel do medico" />
+            <BackButton to="/medico" label="Voltar ao painel do médico" />
             <div>
               <h1 className="font-display text-2xl font-bold text-foreground">
                 Atualizar Receita

@@ -140,14 +140,14 @@ export function ModalCriarPaciente({
             <div>
               <Label>Cartão SUS</Label>
               <Input
-                placeholder="Numero do cartao SUS"
+                placeholder="Número do cartão SUS"
                 value={novoPaciente.cartaoSus}
                 onChange={(e) => updateField("cartaoSus", e.target.value)}
               />
             </div>
 
             <div className="md:col-span-2">
-              <Label>PIN de Acesso (6 digitos)</Label>
+              <Label>PIN de Acesso (6 dígitos)</Label>
               <Input
                 type="password"
                 inputMode="numeric"

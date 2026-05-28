@@ -196,13 +196,13 @@ const GerenciarReceitas = () => {
             <table className="w-full text-sm">
               <thead className="bg-muted/50">
                 <tr>
-                  <th className="text-left p-3 font-medium">Codigo</th>
+                  <th className="text-left p-3 font-medium">Código</th>
                   <th className="text-left p-3 font-medium">Paciente</th>
-                  <th className="text-left p-3 font-medium">Medico</th>
+                  <th className="text-left p-3 font-medium">Médico</th>
                   <th className="text-left p-3 font-medium">Medicamentos</th>
                   <th className="text-left p-3 font-medium">Criada em</th>
                   <th className="text-left p-3 font-medium">Status</th>
-                  <th className="text-center p-3 font-medium">Acao</th>
+                  <th className="text-center p-3 font-medium">Ação</th>
                 </tr>
               </thead>
               <tbody>
@@ -288,8 +288,8 @@ const GerenciarReceitas = () => {
                 {receitaParaApagar && (
                   <div className="rounded-lg bg-muted p-3 text-sm space-y-1">
                     <p><strong>Paciente:</strong> {receitaParaApagar.paciente.usuario.nome}</p>
-                    <p><strong>Medico:</strong> {receitaParaApagar.medico.usuario.nome}</p>
-                    <p><strong>Codigo:</strong> {receitaParaApagar.codigo}</p>
+                    <p><strong>Médico:</strong> {receitaParaApagar.medico.usuario.nome}</p>
+                    <p><strong>Código:</strong> {receitaParaApagar.codigo}</p>
                     <p><strong>Status:</strong> {receitaParaApagar.status}</p>
                     <p><strong>Medicamentos:</strong>{" "}
                       {receitaParaApagar.itens.map((i) => i.medicamento).join(", ")}

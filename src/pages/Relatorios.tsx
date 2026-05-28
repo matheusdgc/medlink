@@ -214,9 +214,9 @@ const Relatorios = () => {
             <div className="flex items-center gap-4">
               <BackButton label="Voltar ao painel" />
               <div>
-                <h1 className="font-display text-3xl font-bold text-foreground">Relatorios</h1>
+                <h1 className="font-display text-3xl font-bold text-foreground">Relatórios</h1>
                 <p className="text-muted-foreground mt-1">
-                  Analise detalhada de uso do sistema MedLink
+                  Análise detalhada de uso do sistema MedLink
                 </p>
               </div>
             </div>
@@ -252,8 +252,8 @@ const Relatorios = () => {
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 animate-fade-in">
               <CardResumo titulo="Total de Receitas" valor={visaoGeral.totalReceitas} cor="text-teal" />
               <CardResumo titulo="Total de Pacientes" valor={visaoGeral.totalPacientes} cor="text-navy" />
-              <CardResumo titulo="Medicos Cadastrados" valor={visaoGeral.totalMedicos} cor="text-teal" />
-              <CardResumo titulo="Dispensacoes" valor={visaoGeral.totalDispensacoes} cor="text-navy" />
+              <CardResumo titulo="Médicos Cadastrados" valor={visaoGeral.totalMedicos} cor="text-teal" />
+              <CardResumo titulo="Dispensações" valor={visaoGeral.totalDispensacoes} cor="text-navy" />
             </div>
           )}
 
@@ -398,16 +398,16 @@ const Relatorios = () => {
                 <CardContent>
                   <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
                     <div className="md:col-span-2 space-y-1">
-                      <Label>Busca por diagnostico</Label>
+                      <Label>Busca por diagnóstico</Label>
                       <Input
-                        placeholder="Ex: diabetes, hipertensao..."
+                        placeholder="Ex: diabetes, hipertensão..."
                         value={buscaDiag}
                         onChange={(e) => setBuscaDiag(e.target.value)}
                         onKeyDown={(e) => e.key === "Enter" && buscarDiagnosticos()}
                       />
                     </div>
                     <div className="space-y-1">
-                      <Label>Mes</Label>
+                      <Label>Mês</Label>
                       <Select value={mesDiag} onValueChange={setMesDiag}>
                         <SelectTrigger>
                           <SelectValue placeholder="Todos" />
@@ -450,7 +450,7 @@ const Relatorios = () => {
               <Card>
                 <CardHeader>
                   <CardTitle className="text-base">
-                    Diagnosticos mais frequentes
+                    Diagnósticos mais frequentes
                     {mesDiag && anoDiag && (
                       <span className="ml-2 text-muted-foreground font-normal">
                         — {MESES_OPCOES.find((m) => m.valor === mesDiag)?.label ?? ""} de {anoDiag}
@@ -463,7 +463,7 @@ const Relatorios = () => {
                     <Skeleton />
                   ) : diagnosticos.length === 0 ? (
                     <p className="text-center text-muted-foreground py-8">
-                      Nenhum diagnostico encontrado para os filtros selecionados.
+                      Nenhum diagnóstico encontrado para os filtros selecionados.
                     </p>
                   ) : (
                     <>
@@ -486,7 +486,7 @@ const Relatorios = () => {
                           <Tooltip
                             formatter={(value: number, name: string) => [
                               value,
-                              name === "receitas" ? "Receitas" : "Pacientes unicos",
+                              name === "receitas" ? "Receitas" : "Pacientes únicos",
                             ]}
                           />
                           <Bar dataKey="receitas" name="receitas" fill="#0F766E" radius={[0, 2, 2, 0]} />
@@ -500,9 +500,9 @@ const Relatorios = () => {
                           <thead>
                             <tr className="border-b">
                               <th className="text-left py-2 font-semibold text-muted-foreground">#</th>
-                              <th className="text-left py-2 font-semibold text-muted-foreground">Diagnostico</th>
+                              <th className="text-left py-2 font-semibold text-muted-foreground">Diagnóstico</th>
                               <th className="text-right py-2 font-semibold text-muted-foreground">Receitas</th>
-                              <th className="text-right py-2 font-semibold text-muted-foreground">Pacientes unicos</th>
+                              <th className="text-right py-2 font-semibold text-muted-foreground">Pacientes únicos</th>
                             </tr>
                           </thead>
                           <tbody>

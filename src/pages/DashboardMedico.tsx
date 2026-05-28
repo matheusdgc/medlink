@@ -126,7 +126,7 @@ const DashboardMedico = () => {
           */}
           <section className="animate-fade-in">
             <h2 className="font-display text-lg font-semibold text-foreground mb-6 text-center">
-              Acoes rapidas
+              Ações rápidas
             </h2>
             {/*
               flex-wrap + justify-center: cada linha de cards e centralizada
@@ -155,7 +155,7 @@ const DashboardMedico = () => {
               <ActionCard
                 icon={Users}
                 title="Ver Paciente"
-                description="Historico medico do paciente"
+                description="Histórico médico do paciente"
                 onClick={() => navigate("/medico/pacientes")}
                 className="w-full sm:w-64 animate-fade-in [animation-delay:160ms]"
               />
@@ -168,8 +168,8 @@ const DashboardMedico = () => {
               />
               <ActionCard
                 icon={BarChart2}
-                title="Relatorios"
-                description="Medicamentos, diagnosticos e graficos de uso"
+                title="Relatórios"
+                description="Medicamentos, diagnósticos e gráficos de uso"
                 onClick={() => navigate("/medico/relatorios")}
                 className="w-full sm:w-64 animate-fade-in [animation-delay:320ms]"
               />
@@ -204,28 +204,28 @@ const DashboardMedico = () => {
                 <StatCard
                   titulo="Total de Receitas"
                   valor={stats.totalReceitas}
-                  descricao="desde o inicio"
+                  descricao="desde o início"
                   icon={ClipboardList}
                   cor="text-teal"
                 />
                 <StatCard
-                  titulo="Criadas este mes"
+                  titulo="Criadas este mês"
                   valor={stats.receitasMes}
-                  descricao="no mes atual"
+                  descricao="no mês atual"
                   icon={TrendingUp}
                   cor="text-teal"
                 />
                 <StatCard
                   titulo="Pacientes atendidos"
                   valor={stats.pacientesAtendidos}
-                  descricao="pacientes unicos"
+                  descricao="pacientes únicos"
                   icon={Users}
                   cor="text-navy"
                 />
                 <StatCard
                   titulo="Receitas ativas"
                   valor={stats.receitasAtivas}
-                  descricao="aguardando dispensacao"
+                  descricao="aguardando dispensação"
                   icon={Activity}
                   cor="text-emerald-600"
                 />
